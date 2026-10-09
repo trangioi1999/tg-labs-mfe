@@ -129,16 +129,31 @@ This runs the five production builds and then `tools/scripts/assemble-pages.mjs`
 | `/federation.manifest.json` | Same-origin URLs (`/mfe/blog/remoteEntry.json`…) |
 | `/_headers`                 | `no-cache` for `*.json`, `immutable` for JS/CSS  |
 
-Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**:
+Cloudflare deploys it as a **static-assets-only Worker** configured in `wrangler.jsonc`:
 
-| Setting                | Value                      |
-| ---------------------- | -------------------------- |
-| Production branch      | `main`                     |
-| Build command          | `npm run build:pages`      |
-| Build output directory | `dist/pages`               |
-| Environment variable   | `NODE_VERSION` = `24.21.0` |
+- assets are served from `dist/pages`;
+- `not_found_handling: single-page-application` returns `index.html` for page routes such as `/blog/<slug>`.
 
-Pages serves `index.html` for unknown paths when no `404.html` exists, so deep links such as `/blog/<slug>` work after a refresh. Every push to `main` redeploys; pull requests get preview URLs.
+No Worker code runs on a request. The dashboard's import flow creates a Worker, not a classic Pages project.
+
+To create it, go to **Workers & Pages → Create → Import a repository**, pick `tg-labs-mfe`, then set:
+
+| Setting              | Value                                          |
+| -------------------- | ---------------------------------------------- |
+| Project name         | `tg-labs` (matches `name` in `wrangler.jsonc`) |
+| Production branch    | `main`                                         |
+| Build command        | `npm run build:pages`                          |
+| Deploy command       | `npx wrangler deploy`                          |
+| Environment variable | `NODE_VERSION` = `24.21.0`                     |
+
+The `_headers` file in `dist/pages` sets the cache headers. Every push to `main` redeploys.
+
+Validate locally without deploying:
+
+```bash
+npm run build:pages
+npx wrangler deploy --dry-run
+```
 
 Trade-offs:
 

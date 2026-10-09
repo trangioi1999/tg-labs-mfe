@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/wrangler@4/config-schema.json",
+  "name": "tg-labs",
+  "compatibility_date": "2026-08-14",
+
+  // Static-assets-only Worker: no `main` script, Cloudflare serves the
+  // output of `npm run build:pages` straight from the edge.
+  "assets": {
+    "directory": "./dist/pages",
+    // Page routes like /blog/<slug> have no file on disk: serve index.html
+    // with a 200 and let the Shell's Angular router handle them.
+    "not_found_handling": "single-page-application",
+  },
+}
