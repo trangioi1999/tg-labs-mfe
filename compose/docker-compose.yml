@@ -20,6 +20,7 @@ services:
     image: ${IMAGE_REGISTRY:-tg-labs}/shell:${IMAGE_TAG:-local}
     restart: unless-stopped
     environment:
+      ENABLED_REMOTES: ${ENABLED_REMOTES:-all}
       REMOTE_BLOG_URL: ${REMOTE_BLOG_URL:-/mfe/blog/remoteEntry.json}
       REMOTE_DOCS_URL: ${REMOTE_DOCS_URL:-/mfe/docs/remoteEntry.json}
       REMOTE_TOOLS_URL: ${REMOTE_TOOLS_URL:-/mfe/tools/remoteEntry.json}
