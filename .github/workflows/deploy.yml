@@ -1,0 +1,56 @@
+# Manual image publishing to GitHub Container Registry.
+#
+# Deliberately NOT an automatic production deployment: VPS rollout needs
+# server credentials (SSH key, host) that are not configured yet. Once they
+# exist, add a job that SSHes into the VPS and runs:
+#   docker compose --env-file .env -f compose/docker-compose.yml \
+#     -f compose/docker-compose.prod.yml pull && ... up -d --no-build
+# See docs/deployment.md.
+name: Publish images
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Image tag (defaults to the commit SHA)
+        required: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    name: Publish ${{ matrix.app }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: true
+      matrix:
+        app: [shell, blog-mfe, docs-mfe, tools-mfe, playground-mfe, bff]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute image name
+        id: image
+        run: |
+          owner=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')
+          echo "name=ghcr.io/${owner}/tg-labs/${{ matrix.app }}" >> "$GITHUB_OUTPUT"
+          echo "tag=${{ inputs.tag || github.sha }}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/${{ matrix.app }}.Dockerfile
+          push: true
+          tags: ${{ steps.image.outputs.name }}:${{ steps.image.outputs.tag }}
+          cache-from: type=gha,scope=${{ matrix.app }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.app }}
