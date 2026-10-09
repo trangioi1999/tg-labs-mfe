@@ -6,7 +6,18 @@
   "engines": {
     "node": ">=24.15.0"
   },
-  "scripts": {},
+  "scripts": {
+    "start": "nx run-many -t serve -p shell blog-mfe docs-mfe tools-mfe playground-mfe",
+    "start:shell": "nx serve shell",
+    "build": "nx run-many -t build",
+    "test": "nx run-many -t test",
+    "lint": "nx run-many -t lint",
+    "format": "nx format:write",
+    "format:check": "nx format:check",
+    "affected": "nx affected -t lint test build",
+    "docker:up": "docker compose --env-file .env -f compose/docker-compose.yml up --build -d",
+    "docker:down": "docker compose --env-file .env -f compose/docker-compose.yml down"
+  },
   "devDependencies": {
     "@angular-architects/native-federation": "~22.2.2",
     "@angular-devkit/core": "~22.2.2",
