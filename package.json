@@ -16,7 +16,8 @@
     "format:check": "nx format:check",
     "affected": "nx affected -t lint test build",
     "docker:up": "docker compose --env-file .env -f compose/docker-compose.yml up --build -d",
-    "docker:down": "docker compose --env-file .env -f compose/docker-compose.yml down"
+    "docker:down": "docker compose --env-file .env -f compose/docker-compose.yml down",
+    "build:pages": "nx run-many -t build -p shell blog-mfe docs-mfe tools-mfe playground-mfe && node tools/scripts/assemble-pages.mjs"
   },
   "devDependencies": {
     "@angular-architects/native-federation": "~22.2.2",

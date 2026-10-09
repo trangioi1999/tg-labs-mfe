@@ -112,6 +112,41 @@ Docker service names are only used **between containers**. The browser only sees
 
 `.github/workflows/deploy.yml` (_Publish images_) is **manual** (`workflow_dispatch`). It pushes images to `ghcr.io/<owner>/tg-labs/<app>:<sha>`. It does not touch any server.
 
+## Cloudflare Pages (single-project staging)
+
+The quickest way to publish the frontend: no VPS, no domain required. One Pages project serves the Shell and every Remote from the same origin, using the gateway's layout (`/mfe/<remote>/`), so no CORS configuration is needed.
+
+```bash
+npm run build:pages
+```
+
+This runs the five production builds and then `tools/scripts/assemble-pages.mjs`, which produces `dist/pages/`:
+
+| Path                        | Content                                          |
+| --------------------------- | ------------------------------------------------ |
+| `/`                         | Shell build (`index.html`, bundles)              |
+| `/mfe/<remote>/`            | Each remote's federation build                   |
+| `/federation.manifest.json` | Same-origin URLs (`/mfe/blog/remoteEntry.json`…) |
+| `/_headers`                 | `no-cache` for `*.json`, `immutable` for JS/CSS  |
+
+Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**:
+
+| Setting                | Value                      |
+| ---------------------- | -------------------------- |
+| Production branch      | `main`                     |
+| Build command          | `npm run build:pages`      |
+| Build output directory | `dist/pages`               |
+| Environment variable   | `NODE_VERSION` = `24.21.0` |
+
+Pages serves `index.html` for unknown paths when no `404.html` exists, so deep links such as `/blog/<slug>` work after a refresh. Every push to `main` redeploys; pull requests get preview URLs.
+
+Trade-offs:
+
+- All five apps are deployed together.
+- The BFF (`/api`) is not part of this deployment.
+
+Once stable, either split the remotes into separate Pages projects (absolute URLs in the manifest, plus CORS headers) or move to the VPS setup. No application code changes are needed for either.
+
 ## VPS rollout (next step)
 
 Production deployment is intentionally not automated yet. The suggested path:
