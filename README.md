@@ -44,7 +44,7 @@ flowchart LR
 3. Navigating to `/blog/**` triggers `loadChildren`, which loads the Blog remote's exposed **`./routes`** module from `/mfe/blog/`.
 4. If a remote is unreachable, the Shell renders a "temporarily unavailable" page for that section; the rest of the site keeps working.
 
-More detail: [docs/architecture.md](docs/architecture.md).
+More detail: [docs/architecture.md](docs/architecture.md). All guides are indexed in [docs/README.md](docs/README.md).
 
 ## Technology stack
 
