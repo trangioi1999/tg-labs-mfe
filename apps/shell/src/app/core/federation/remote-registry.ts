@@ -63,9 +63,19 @@ export class RemoteRegistry {
    * `/` or `/about` are always available.
    */
   isPathEnabled(path: string): boolean {
-    const segment = path.split('/').filter(Boolean)[0];
-    const remote = REMOTE_LIST.find((r) => r.basePath === segment);
+    const remote = this.remoteForPath(path);
     return !remote || this.isEnabled(remote.name);
+  }
+
+  /** The remote that owns a Shell path, e.g. `/blog/x` -> Blog; else undefined. */
+  remoteForPath(path: string): RemoteDefinition | undefined {
+    const segment = path.split('/').filter(Boolean)[0];
+    return REMOTE_LIST.find((r) => r.basePath === segment);
+  }
+
+  /** The remoteEntry.json URL from the manifest, if the remote is enabled. */
+  entryUrl(remoteName: string): string | undefined {
+    return this.urlOf(remoteName);
   }
 
   /** Starts fetching a remote's remoteEntry.json without waiting for it. */

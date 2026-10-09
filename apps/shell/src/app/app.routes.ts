@@ -6,7 +6,7 @@ import { Home } from './pages/home/home';
 import { NotFound } from './pages/not-found/not-found';
 
 /**
- * Top-level routes. The Shell owns `/`, `/about` and the global 404; each
+ * Top-level routes. The Shell owns `/`, `/about`, `/settings` and the global 404; each
  * remote owns everything below its base path (`/blog/**`, `/docs/**`, ...).
  * Remotes disabled in the runtime manifest do not match, so their URLs fall
  * through to the 404 page.
@@ -17,6 +17,11 @@ export const appRoutes: Route[] = [
     path: 'about',
     title: 'About',
     loadComponent: () => import('./pages/about/about').then((m) => m.About),
+  },
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('./pages/settings/settings.routes').then((m) => m.settingsRoutes),
   },
   ...REMOTE_LIST.map(
     (remote): Route => ({

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Container } from '@tg-labs/shared-layout';
 import { Button } from '@tg-labs/shared-ui';
-import { RemoteRegistry } from '../../core/federation/remote-registry';
+import { SiteNav } from '../../core/navigation/site-nav';
 
 @Component({
   selector: 'tg-not-found',
@@ -26,7 +26,7 @@ import { RemoteRegistry } from '../../core/federation/remote-registry';
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a tgButton routerLink="/">Back to home</a>
-        @for (item of nav; track item.path) {
+        @for (item of nav(); track item.path) {
           <a tgButton variant="ghost" [routerLink]="item.path">{{
             item.label
           }}</a>
@@ -36,5 +36,5 @@ import { RemoteRegistry } from '../../core/federation/remote-registry';
   `,
 })
 export class NotFound {
-  protected readonly nav = inject(RemoteRegistry).nav;
+  protected readonly nav = inject(SiteNav).sections;
 }

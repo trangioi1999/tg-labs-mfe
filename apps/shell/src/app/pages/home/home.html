@@ -1,20 +1,31 @@
 <section
-  class="border-b border-zinc-200 dark:border-zinc-800"
+  class="relative isolate overflow-hidden border-b border-zinc-200 dark:border-zinc-800"
   aria-labelledby="hero-title"
 >
+  <!-- Decorative background: fading grid plus an accent glow. -->
+  <div
+    class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--color-zinc-200)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-zinc-200)_1px,transparent_1px)] mask-[radial-gradient(ellipse_70%_60%_at_50%_0%,#000_60%,transparent_100%)] bg-size-[3rem_3rem] opacity-70 dark:bg-[linear-gradient(to_right,var(--color-zinc-800)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-zinc-800)_1px,transparent_1px)]"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="absolute -top-40 left-1/2 -z-10 h-[32rem] w-[56rem] -translate-x-1/2 rounded-full bg-accent-400/25 blur-3xl dark:bg-accent-500/15"
+    aria-hidden="true"
+  ></div>
+
   <tg-container width="wide">
     <div
-      class="grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_26rem]"
+      class="grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_28rem]"
     >
       <div>
         <p
-          class="font-mono text-xs font-medium tracking-widest text-accent-700 uppercase dark:text-accent-400"
+          class="inline-flex items-center gap-2 rounded-full border border-accent-200 bg-white/70 px-3 py-1 font-mono text-xs font-medium text-accent-800 backdrop-blur dark:border-accent-900 dark:bg-zinc-950/60 dark:text-accent-300"
         >
-          // {{ site.name }} — engineering lab
+          <span class="size-1.5 rounded-full bg-accent-500"></span>
+          {{ remotes.length }} sections · Native Federation
         </p>
         <h1
           id="hero-title"
-          class="mt-4 text-4xl font-semibold tracking-tight text-balance text-zinc-950 sm:text-6xl dark:text-white"
+          class="mt-6 bg-linear-to-br from-zinc-950 via-zinc-800 to-accent-700 bg-clip-text text-4xl font-semibold tracking-tight text-balance text-transparent sm:text-6xl dark:from-white dark:via-zinc-200 dark:to-accent-300"
         >
           {{ site.tagline }}
         </h1>
@@ -24,48 +35,123 @@
           Field notes on frontend architecture, backend systems and delivery —
           plus the small tools and experiments that come out of building them.
         </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          @if (blogEnabled) {
-          <a tgButton routerLink="/blog">Read the blog</a>
-          } @if (toolsEnabled) {
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          @if (blogVisible()) {
+          <a tgButton routerLink="/blog"
+            >Read the blog <tg-icon name="arrowRight" class="size-4"
+          /></a>
+          } @if (toolsVisible()) {
           <a tgButton variant="secondary" routerLink="/tools"
             >Open developer tools</a
           >
           }
+          <a tgButton variant="ghost" routerLink="/settings"
+            ><tg-icon name="palette" class="size-4" /> Make it yours</a
+          >
         </div>
       </div>
 
-      <div
-        class="hidden overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950 font-mono text-sm shadow-sm lg:block dark:border-zinc-800"
-        aria-hidden="true"
-      >
+      <div class="relative hidden lg:block" aria-hidden="true">
         <div
-          class="flex items-center gap-2 border-b border-zinc-800 px-4 py-2.5 text-xs text-zinc-500"
+          class="absolute -inset-4 -z-10 rounded-2xl bg-linear-to-br from-accent-400/30 to-transparent blur-2xl"
+        ></div>
+        <div
+          class="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 font-mono text-sm shadow-2xl shadow-zinc-950/20"
         >
-          <span class="size-2.5 rounded-full bg-zinc-700"></span>
-          <span class="size-2.5 rounded-full bg-zinc-700"></span>
-          <span class="size-2.5 rounded-full bg-zinc-700"></span>
-          <span class="ml-2">tg-labs ~ federation.manifest.json</span>
-        </div>
-        <pre
-          class="p-5 leading-7 text-zinc-300"
-        ><span class="text-zinc-500">{{ '{' }}</span>
+          <div
+            class="flex items-center gap-2 border-b border-zinc-800 px-4 py-2.5 text-xs text-zinc-500"
+          >
+            <span class="size-2.5 rounded-full bg-rose-400/80"></span>
+            <span class="size-2.5 rounded-full bg-amber-400/80"></span>
+            <span class="size-2.5 rounded-full bg-emerald-400/80"></span>
+            <span class="ml-2">tg-labs ~ federation.manifest.json</span>
+          </div>
+          <pre
+            class="p-5 leading-7 text-zinc-300"
+          ><span class="text-zinc-500">{{ '{' }}</span>
 @for (remote of remotes; track remote.name; let last = $last) {  <span class="text-accent-300">"{{ remote.name }}"</span>: <span class="text-zinc-400">"/mfe/{{ remote.basePath }}/…"</span>{{ last ? '' : ',' }}
 }<span class="text-zinc-500">{{ '}' }}</span>
 <span class="text-zinc-500">$</span> nx affected -t lint test build
-<span class="text-accent-400">✔</span> <span class="text-zinc-400">5 apps · 5 libs · one shell</span></pre>
+<span class="text-accent-400">✔</span> <span class="text-zinc-400">{{ remotes.length }} remotes · one shell</span><span class="ml-1 inline-block h-4 w-2 translate-y-0.5 animate-pulse bg-accent-400 motion-reduce:animate-none"></span></pre>
+        </div>
       </div>
     </div>
+
+    <dl
+      class="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-zinc-200 bg-zinc-200 mb-16 sm:grid-cols-4 dark:border-zinc-800 dark:bg-zinc-800"
+    >
+      @for (stat of stats; track stat.label) {
+      <div class="bg-white/80 px-5 py-4 backdrop-blur dark:bg-zinc-950/80">
+        <dt class="text-xs text-zinc-500">{{ stat.label }}</dt>
+        <dd
+          class="mt-1 font-mono text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white"
+        >
+          {{ stat.value }}
+        </dd>
+      </div>
+      }
+    </dl>
   </tg-container>
 </section>
 
-@if (blogEnabled) {
-<section class="py-16" aria-labelledby="featured-title">
+@if (show('explore') && siteNav.sections().length) {
+<section class="py-16" aria-labelledby="explore-title">
+  <tg-container width="wide">
+    <p class="font-mono text-xs tracking-widest text-zinc-500 uppercase">
+      01 — Explore
+    </p>
+    <h2
+      id="explore-title"
+      class="mt-2 text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white"
+    >
+      Explore the lab
+    </h2>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      @for (item of siteNav.sections(); track item.path) {
+      <li class="flex">
+        <tg-card
+          [interactive]="true"
+          class="group w-full hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zinc-900/5 motion-reduce:transform-none"
+          (mouseenter)="siteNav.prefetch(item.remote)"
+        >
+          <span
+            class="grid size-10 place-items-center rounded-lg bg-accent-50 text-accent-700 ring-1 ring-accent-100 transition-colors group-hover:bg-accent-600 group-hover:text-white dark:bg-accent-950/60 dark:text-accent-300 dark:ring-accent-900"
+          >
+            <tg-icon
+              [name]="icons[item.path.slice(1)] ?? 'layers'"
+              class="size-5"
+            />
+          </span>
+          <a
+            [routerLink]="item.path"
+            class="mt-4 flex items-center justify-between font-semibold text-zinc-950 after:absolute after:inset-0 after:content-[''] dark:text-white"
+          >
+            {{ item.label }}
+            <tg-icon
+              name="arrowRight"
+              class="size-4 -translate-x-1 text-zinc-400 opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100"
+            />
+          </a>
+          <p class="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            {{ item.description }}
+          </p>
+          <p class="mt-4 font-mono text-xs text-zinc-400">{{ item.path }}</p>
+        </tg-card>
+      </li>
+      }
+    </ul>
+  </tg-container>
+</section>
+} @if (blogVisible() && show('featured')) {
+<section
+  class="border-t border-zinc-200 py-16 dark:border-zinc-800"
+  aria-labelledby="featured-title"
+>
   <tg-container width="wide">
     <div class="flex items-end justify-between gap-4">
       <div>
         <p class="font-mono text-xs tracking-widest text-zinc-500 uppercase">
-          01 — Featured
+          02 — Featured
         </p>
         <h2
           id="featured-title"
@@ -82,9 +168,16 @@
     </div>
 
     <ul class="mt-8 grid gap-6 md:grid-cols-3">
-      @for (article of featured; track article.slug) {
+      @for (article of featured; track article.slug; let first = $first) {
       <li class="flex">
-        <tg-card [interactive]="true" class="w-full">
+        <tg-card
+          [interactive]="true"
+          class="w-full overflow-hidden hover:shadow-lg hover:shadow-zinc-900/5"
+        >
+          <div
+            class="-mx-5 -mt-5 mb-5 h-1.5 bg-linear-to-r from-accent-400 to-accent-700"
+            [class.opacity-40]="!first"
+          ></div>
           <div class="flex items-center gap-2">
             <tg-badge tone="accent">{{ article.category }}</tg-badge>
           </div>
@@ -114,14 +207,14 @@
     </ul>
   </tg-container>
 </section>
-
+} @if (blogVisible() && show('topics')) {
 <section
   class="border-y border-zinc-200 bg-zinc-50 py-16 dark:border-zinc-800 dark:bg-zinc-900/40"
   aria-labelledby="topics-title"
 >
   <tg-container width="wide">
     <p class="font-mono text-xs tracking-widest text-zinc-500 uppercase">
-      02 — Topics
+      03 — Topics
     </p>
     <h2
       id="topics-title"
@@ -130,13 +223,13 @@
       Browse by topic
     </h2>
     <ul
-      class="mt-8 grid gap-px overflow-hidden rounded-lg border border-zinc-200 bg-zinc-200 sm:grid-cols-2 lg:grid-cols-3 dark:border-zinc-800 dark:bg-zinc-800"
+      class="mt-8 grid gap-px overflow-hidden rounded-xl border border-zinc-200 bg-zinc-200 sm:grid-cols-2 lg:grid-cols-3 dark:border-zinc-800 dark:bg-zinc-800"
     >
       @for (topic of topics; track topic.slug; let i = $index) {
       <li class="bg-white dark:bg-zinc-950">
         <a
           [routerLink]="categoryLink(topic.slug)"
-          class="group block h-full p-6 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+          class="group block h-full p-6 transition-colors hover:bg-accent-50/50 dark:hover:bg-accent-950/20"
         >
           <span class="font-mono text-xs text-zinc-400"
             >{{ (i + 1).toString().padStart(2, '0') }}</span
@@ -155,11 +248,11 @@
     </ul>
   </tg-container>
 </section>
-} @if (resources.length) {
+} @if (show('resources') && resources().length) {
 <section class="py-16" aria-labelledby="resources-title">
   <tg-container width="wide">
     <p class="font-mono text-xs tracking-widest text-zinc-500 uppercase">
-      03 — Resources
+      04 — Resources
     </p>
     <h2
       id="resources-title"
@@ -174,10 +267,10 @@
       server.
     </p>
     <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-      @for (resource of resources; track resource.path) {
+      @for (resource of resources(); track resource.path) {
       <li class="flex">
         <tg-card [interactive]="true" class="w-full">
-          <span class="font-mono text-xs text-zinc-500"
+          <span class="font-mono text-xs text-accent-700 dark:text-accent-400"
             >{{ resource.kind }}</span
           >
           <a
@@ -195,3 +288,35 @@
   </tg-container>
 </section>
 }
+
+<section class="pb-20" aria-labelledby="customise-title">
+  <tg-container width="wide">
+    <div
+      class="relative isolate overflow-hidden rounded-2xl bg-zinc-950 px-6 py-10 sm:px-10 dark:bg-zinc-900"
+    >
+      <div
+        class="absolute -top-24 -right-24 -z-10 size-72 rounded-full bg-accent-500/40 blur-3xl"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div>
+          <h2 id="customise-title" class="text-xl font-semibold text-white">
+            Make TG Labs yours
+          </h2>
+          <p class="mt-2 max-w-xl text-sm leading-6 text-zinc-400">
+            Pick a theme and accent colour, adjust the text size, or hide the
+            sections you do not need. Saved in this browser only.
+          </p>
+        </div>
+        <a
+          routerLink="/settings/appearance"
+          class="inline-flex h-10 shrink-0 items-center gap-2 rounded-md bg-white px-4 text-sm font-medium text-zinc-950 transition-colors hover:bg-accent-100"
+        >
+          <tg-icon name="palette" class="size-4" /> Open settings
+        </a>
+      </div>
+    </div>
+  </tg-container>
+</section>
