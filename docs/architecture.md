@@ -58,15 +58,38 @@ Nx targets per Angular app:
 
 ### Runtime flow
 
-1. `apps/shell/src/main.ts` calls `initFederation('federation.manifest.json')`.
-   - Any remote whose `remoteEntry.json` cannot be fetched is skipped (non-strict mode), so the Shell always boots.
-   - If the manifest itself fails, the Shell still boots, and every remote section shows its fallback page.
-2. The `loadRemoteModule` function returned by `initFederation` is provided to the app through the `REMOTE_MODULE_LOADER` injection token.
-3. `loadRemoteRoutes(REMOTES.blog)` (in `core/federation/load-remote-routes.ts`) is the `loadChildren` callback for `/blog`. It:
-   - loads `./routes` from `blog-mfe` (15 s timeout), and
+1. `apps/shell/src/main.ts` does two things in parallel:
+   - fetches `federation.manifest.json` itself;
+   - calls `initFederation({})` with no remotes, so **no remote is contacted at start-up**. A slow or broken remote therefore never delays the Shell.
+
+   If the manifest cannot be read, the Shell still boots, with no sections enabled.
+
+2. The manifest and the federation runtime are provided to the app (`REMOTE_MANIFEST`, `FEDERATION_RUNTIME`). `RemoteRegistry` (`core/federation/remote-registry.ts`) then:
+   - treats every remote **present in the manifest** as enabled;
+   - fetches a remote's `remoteEntry.json` lazily with `initRemoteEntry(url, name)`, at most once (memoized; a failure can be retried);
+   - is used by navigation links to **prefetch** a remote on hover, focus or touch.
+3. Each remote route has a `canMatch: [remoteEnabled(remote)]` guard. A disabled remote's URLs fall through to the 404 page.
+4. `loadRemoteRoutes(remote)` (in `core/federation/load-remote-routes.ts`) is the `loadChildren` callback. It:
+   - asks the registry to initialise the remote, then loads `./routes` (15 s timeout);
    - validates that the module exports `routes`.
    - On failure, it returns a catch-all route rendering `RemoteUnavailable`.
-4. Remote routes are relative. They are mounted under the Shell's `/blog`, `/docs`, `/tools` and `/playground` routes, and anything unmatched falls through to the Shell's `**` 404.
+5. Remote routes are relative. They are mounted under the Shell's `/blog`, `/docs`, `/tools` and `/playground` routes, and anything unmatched falls through to the Shell's `**` 404.
+
+### Enabling and disabling sections
+
+The manifest is also the list of enabled sections. A remote that is missing from it:
+
+- is hidden from the header, footer, home page, About and 404 pages;
+- has its URLs fall through to the 404 page;
+- is never downloaded.
+
+| Environment  | How to choose sections                                                              |
+| ------------ | ----------------------------------------------------------------------------------- |
+| Local dev    | Remove entries from `apps/shell/public/federation.manifest.json` (do not commit)    |
+| Cloudflare   | Build variable `ENABLED_REMOTES` (e.g. `blog,tools`), read by `npm run build:pages` |
+| Docker / VPS | Container variable `ENABLED_REMOTES` on the Shell; restart, no rebuild needed       |
+
+Valid values are `blog`, `docs`, `tools`, `playground` (comma-separated) or `all` (the default).
 
 ### Route contract
 

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Container } from '@tg-labs/shared-layout';
-import { PRIMARY_NAV, SITE } from '@tg-labs/shared-config';
+import { SITE } from '@tg-labs/shared-config';
+import { RemoteRegistry } from '../../core/federation/remote-registry';
 import { NavigationState } from '../../core/navigation/navigation-state';
 import { ThemeService } from '../../core/theme/theme';
 
@@ -17,7 +18,8 @@ import { ThemeService } from '../../core/theme/theme';
 })
 export class Header {
   protected readonly site = SITE;
-  protected readonly nav = PRIMARY_NAV;
+  protected readonly registry = inject(RemoteRegistry);
+  protected readonly nav = this.registry.nav;
   protected readonly navState = inject(NavigationState);
   protected readonly theme = inject(ThemeService);
 }

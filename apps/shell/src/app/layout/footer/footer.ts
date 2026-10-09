@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { PRIMARY_NAV, SITE } from '@tg-labs/shared-config';
+import { SITE } from '@tg-labs/shared-config';
 import { Container } from '@tg-labs/shared-layout';
+import { RemoteRegistry } from '../../core/federation/remote-registry';
 
 @Component({
   selector: 'tg-footer',
@@ -87,6 +88,6 @@ import { Container } from '@tg-labs/shared-layout';
 })
 export class Footer {
   protected readonly site = SITE;
-  protected readonly nav = PRIMARY_NAV;
+  protected readonly nav = inject(RemoteRegistry).nav;
   protected readonly year = new Date().getFullYear();
 }
