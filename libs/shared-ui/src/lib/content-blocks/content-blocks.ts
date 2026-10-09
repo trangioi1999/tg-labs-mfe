@@ -9,15 +9,26 @@ import type { ContentBlock } from '@tg-labs/shared-models';
 @Component({
   selector: 'tg-content-blocks',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'block max-w-prose text-base leading-7 text-zinc-700 dark:text-zinc-300' },
+  host: {
+    class:
+      'block max-w-prose text-base leading-7 text-zinc-700 dark:text-zinc-300',
+  },
   template: `
     @for (block of blocks(); track $index) {
       @switch (block.kind) {
         @case ('heading') {
           @if (block.level === 2) {
-            <h2 class="mt-10 mb-3 text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white">{{ block.text }}</h2>
+            <h2
+              class="mt-10 mb-3 text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white"
+            >
+              {{ block.text }}
+            </h2>
           } @else {
-            <h3 class="mt-8 mb-2 text-lg font-semibold text-zinc-950 dark:text-white">{{ block.text }}</h3>
+            <h3
+              class="mt-8 mb-2 text-lg font-semibold text-zinc-950 dark:text-white"
+            >
+              {{ block.text }}
+            </h3>
           }
         }
         @case ('paragraph') {
@@ -39,11 +50,19 @@ import type { ContentBlock } from '@tg-labs/shared-models';
           }
         }
         @case ('code') {
-          <figure class="my-6 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950 dark:border-zinc-800">
+          <figure
+            class="my-6 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950 dark:border-zinc-800"
+          >
             @if (block.language) {
-              <figcaption class="border-b border-zinc-800 px-4 py-2 font-mono text-xs text-zinc-400">{{ block.language }}</figcaption>
+              <figcaption
+                class="border-b border-zinc-800 px-4 py-2 font-mono text-xs text-zinc-400"
+              >
+                {{ block.language }}
+              </figcaption>
             }
-            <pre class="overflow-x-auto p-4 text-sm leading-6 text-zinc-100"><code>{{ block.code }}</code></pre>
+            <pre
+              class="overflow-x-auto p-4 text-sm leading-6 text-zinc-100"
+            ><code>{{ block.code }}</code></pre>
           </figure>
         }
         @case ('callout') {

@@ -35,10 +35,7 @@ export function readingMinutes(text: string, wordsPerMinute = 220): number {
  */
 export function matchesQuery(haystack: string, query: string): boolean {
   const normalise = (value: string) =>
-    value
-      .normalize('NFKD')
-      .replace(/[̀-ͯ]/g, '')
-      .toLowerCase();
+    value.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
   const needle = normalise(query.trim());
   return needle.length === 0 || normalise(haystack).includes(needle);
 }

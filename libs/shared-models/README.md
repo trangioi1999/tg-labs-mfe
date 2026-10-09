@@ -6,4 +6,4 @@ types) shared by the Shell, the Remotes and — later — the BFF.
 Rules:
 
 - Types only (no runtime code, no Angular imports).
-- No domain *logic*; Blog/Docs/Tools behaviour stays in the owning Remote.
+- No domain _logic_; Blog/Docs/Tools behaviour stays in the owning Remote.

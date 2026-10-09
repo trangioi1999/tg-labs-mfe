@@ -1,6 +1,9 @@
 import { inject } from '@angular/core';
 import type { Routes } from '@angular/router';
-import { REMOTE_ROUTES_MODULE, type RemoteDefinition } from '@tg-labs/shared-config';
+import {
+  REMOTE_ROUTES_MODULE,
+  type RemoteDefinition,
+} from '@tg-labs/shared-config';
 import { RemoteUnavailable } from '../../pages/remote-unavailable/remote-unavailable';
 import { REMOTE_MODULE_LOADER } from './remote-module-loader';
 
@@ -12,9 +15,16 @@ export interface RemoteRoutesModule {
 /** Upper bound for fetching a remote before showing the fallback page. */
 export const REMOTE_LOAD_TIMEOUT_MS = 15_000;
 
-function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
+function withTimeout<T>(
+  promise: Promise<T>,
+  ms: number,
+  label: string,
+): Promise<T> {
   return new Promise<T>((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error(`Timed out loading ${label}`)), ms);
+    const timer = setTimeout(
+      () => reject(new Error(`Timed out loading ${label}`)),
+      ms,
+    );
     promise.then(
       (value) => {
         clearTimeout(timer);

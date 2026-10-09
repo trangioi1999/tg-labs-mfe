@@ -1,10 +1,17 @@
-import { withNativeFederation, fromPackageJson } from '@angular-architects/native-federation/config';
+import {
+  withNativeFederation,
+  fromPackageJson,
+} from '@angular-architects/native-federation/config';
 
 export default withNativeFederation({
   name: 'shell',
 
-
-  shared: fromPackageJson({ singleton: true, strictVersion: true, requiredVersion: 'auto', build: 'package' })
+  shared: fromPackageJson({
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: 'auto',
+    build: 'package',
+  })
     // includeSecondaries is an opt-out of ignoreUnusedDeps, so all of
     // @angular/core is shared to prevent mismatches.
     .patch(['@angular/core'], { includeSecondaries: { keepAll: true } }),
@@ -35,6 +42,6 @@ export default withNativeFederation({
     // ignoreUnusedDeps: true,
 
     // Opt-in: groups chunks in remoteEntry.json for smaller metadata file
-    denseChunking: true
-  }
+    denseChunking: true,
+  },
 });

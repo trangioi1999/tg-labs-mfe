@@ -18,13 +18,27 @@ export default [
           // Apps may use shared libs; shared libs may only use "lower" shared libs.
           // Domain code never lives in (or leaks into) shared libraries.
           depConstraints: [
-            { sourceTag: 'type:app', onlyDependOnLibsWithTags: ['scope:shared'] },
+            {
+              sourceTag: 'type:app',
+              onlyDependOnLibsWithTags: ['scope:shared'],
+            },
             { sourceTag: 'type:models', onlyDependOnLibsWithTags: [] },
-            { sourceTag: 'type:util', onlyDependOnLibsWithTags: ['type:models'] },
-            { sourceTag: 'type:config', onlyDependOnLibsWithTags: ['type:models'] },
+            {
+              sourceTag: 'type:util',
+              onlyDependOnLibsWithTags: ['type:models'],
+            },
+            {
+              sourceTag: 'type:config',
+              onlyDependOnLibsWithTags: ['type:models'],
+            },
             {
               sourceTag: 'type:ui',
-              onlyDependOnLibsWithTags: ['type:ui', 'type:models', 'type:util', 'type:config'],
+              onlyDependOnLibsWithTags: [
+                'type:ui',
+                'type:models',
+                'type:util',
+                'type:config',
+              ],
             },
           ],
         },

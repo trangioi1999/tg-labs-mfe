@@ -14,7 +14,9 @@ describe('ArticleStore', () => {
   });
 
   it('finds an article by slug', () => {
-    expect(store.bySlug('angular-signals-in-practice')?.title).toBe('Angular Signals in Practice');
+    expect(store.bySlug('angular-signals-in-practice')?.title).toBe(
+      'Angular Signals in Practice',
+    );
     expect(store.bySlug('missing')).toBeUndefined();
   });
 
@@ -31,7 +33,9 @@ describe('ArticleStore', () => {
   });
 
   it('searches titles, excerpts and tags case-insensitively', () => {
-    expect(store.search('POSTGRES').map((a) => a.slug)).toEqual(['postgres-indexing-basics']);
+    expect(store.search('POSTGRES').map((a) => a.slug)).toEqual([
+      'postgres-indexing-basics',
+    ]);
     expect(store.search('   ')).toEqual([]);
   });
 });

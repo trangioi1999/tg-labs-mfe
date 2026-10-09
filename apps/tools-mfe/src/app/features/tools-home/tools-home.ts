@@ -18,8 +18,14 @@ import { TOOLS } from '../../tools.catalog';
       @for (tool of tools; track tool.slug) {
         <li class="flex">
           <tg-card [interactive]="true" class="w-full">
-            <a [routerLink]="link(tool.slug)" class="font-semibold text-zinc-950 after:absolute after:inset-0 after:content-[''] dark:text-white">{{ tool.name }}</a>
-            <p class="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{{ tool.summary }}</p>
+            <a
+              [routerLink]="link(tool.slug)"
+              class="font-semibold text-zinc-950 after:absolute after:inset-0 after:content-[''] dark:text-white"
+              >{{ tool.name }}</a
+            >
+            <p class="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+              {{ tool.summary }}
+            </p>
           </tg-card>
         </li>
       }

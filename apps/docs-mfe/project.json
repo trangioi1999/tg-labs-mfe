@@ -4,24 +4,14 @@
   "projectType": "application",
   "prefix": "tg",
   "sourceRoot": "apps/docs-mfe/src",
-  "tags": [
-    "type:app",
-    "scope:docs"
-  ],
+  "tags": ["type:app", "scope:docs"],
   "targets": {
     "build": {
       "executor": "@angular-architects/native-federation:build",
       "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ],
-      "outputs": [
-        "{workspaceRoot}/dist/apps/docs-mfe"
-      ],
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "outputs": ["{workspaceRoot}/dist/apps/docs-mfe"],
       "options": {
         "cacheExternalArtifacts": true,
         "tsConfig": "apps/docs-mfe/tsconfig.federation.json"
@@ -69,9 +59,7 @@
     },
     "esbuild": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/docs-mfe",
@@ -83,12 +71,8 @@
             "input": "apps/docs-mfe/public"
           }
         ],
-        "styles": [
-          "apps/docs-mfe/src/styles.css"
-        ],
-        "polyfills": [
-          "es-module-shims"
-        ]
+        "styles": ["apps/docs-mfe/src/styles.css"],
+        "polyfills": ["es-module-shims"]
       },
       "configurations": {
         "production": {

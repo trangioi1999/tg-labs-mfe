@@ -13,7 +13,9 @@ export const routes: Routes = [
         path: 'signals-lab',
         title: 'Signals Lab',
         loadComponent: () =>
-          import('./features/signals-lab/signals-lab').then((m) => m.SignalsLab),
+          import('./features/signals-lab/signals-lab').then(
+            (m) => m.SignalsLab,
+          ),
       },
     ],
   },

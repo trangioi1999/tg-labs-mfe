@@ -2,14 +2,14 @@
 
 Reusable, domain-agnostic Angular UI primitives and the Tailwind design tokens.
 
-| Export            | Selector                              |
-| ----------------- | ------------------------------------- |
-| `Button`          | `button[tgButton]`, `a[tgButton]`     |
-| `Card`            | `tg-card`                             |
-| `Badge`           | `tg-badge`                            |
-| `PageHeader`      | `tg-page-header`                      |
-| `StateMessage`    | `tg-state-message` (empty/error/load) |
-| `ContentBlocks`   | `tg-content-blocks`                   |
+| Export          | Selector                              |
+| --------------- | ------------------------------------- |
+| `Button`        | `button[tgButton]`, `a[tgButton]`     |
+| `Card`          | `tg-card`                             |
+| `Badge`         | `tg-badge`                            |
+| `PageHeader`    | `tg-page-header`                      |
+| `StateMessage`  | `tg-state-message` (empty/error/load) |
+| `ContentBlocks` | `tg-content-blocks`                   |
 
 Styles:
 

@@ -21,6 +21,8 @@ describe('SignalsLab', () => {
 
     expect(element.querySelector('output')?.textContent).toBe('3');
     expect(element.textContent).toContain('odd');
-    expect(element.querySelector('[aria-label="Effect log"] li')?.textContent).toContain('count=3');
+    expect(
+      element.querySelector('[aria-label="Effect log"] li')?.textContent,
+    ).toContain('count=3');
   });
 });

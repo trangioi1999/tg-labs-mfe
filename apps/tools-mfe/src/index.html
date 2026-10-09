@@ -10,7 +10,10 @@
     <script>
       try {
         var stored = localStorage.getItem('tg-theme');
-        if (stored === 'dark' || (!stored && matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (
+          stored === 'dark' ||
+          (!stored && matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
           document.documentElement.classList.add('dark');
         }
       } catch (e) {}

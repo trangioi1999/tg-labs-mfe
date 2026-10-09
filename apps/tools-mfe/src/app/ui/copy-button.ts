@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  signal,
+} from '@angular/core';
 import { Button } from '@tg-labs/shared-ui';
 
 /** Copies text to the clipboard and announces the result to screen readers. */
@@ -7,10 +12,25 @@ import { Button } from '@tg-labs/shared-ui';
   imports: [Button],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <button tgButton type="button" variant="secondary" size="sm" [disabled]="!text()" (click)="copy()">
-      {{ status() === 'copied' ? 'Copied' : status() === 'failed' ? 'Copy failed' : label() }}
+    <button
+      tgButton
+      type="button"
+      variant="secondary"
+      size="sm"
+      [disabled]="!text()"
+      (click)="copy()"
+    >
+      {{
+        status() === 'copied'
+          ? 'Copied'
+          : status() === 'failed'
+            ? 'Copy failed'
+            : label()
+      }}
     </button>
-    <span class="sr-only" aria-live="polite">{{ status() === 'copied' ? 'Copied to clipboard' : '' }}</span>
+    <span class="sr-only" aria-live="polite">{{
+      status() === 'copied' ? 'Copied to clipboard' : ''
+    }}</span>
   `,
 })
 export class CopyButton {

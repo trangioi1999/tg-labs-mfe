@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { remoteLink } from '@tg-labs/shared-config';
 import { Container } from '@tg-labs/shared-layout';
@@ -17,7 +21,9 @@ import { Container } from '@tg-labs/shared-layout';
   template: `
     <tg-container class="py-10 sm:py-14">
       <nav aria-label="Blog" class="mb-10 overflow-x-auto">
-        <ul class="flex gap-1 border-b border-zinc-200 text-sm dark:border-zinc-800">
+        <ul
+          class="flex gap-1 border-b border-zinc-200 text-sm dark:border-zinc-800"
+        >
           @for (item of links; track item.path) {
             <li>
               <a
@@ -39,7 +45,11 @@ import { Container } from '@tg-labs/shared-layout';
 export class BlogLayout {
   protected readonly links = [
     { label: 'Latest', path: remoteLink('blog'), exact: true },
-    { label: 'Categories', path: remoteLink('blog', 'categories'), exact: false },
+    {
+      label: 'Categories',
+      path: remoteLink('blog', 'categories'),
+      exact: false,
+    },
     { label: 'Tags', path: remoteLink('blog', 'tags'), exact: false },
     { label: 'Search', path: remoteLink('blog', 'search'), exact: false },
   ];

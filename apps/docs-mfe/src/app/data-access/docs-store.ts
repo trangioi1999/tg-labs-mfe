@@ -20,7 +20,12 @@ export class DocsStore {
       ...section,
       pages: this.ordered
         .filter((page) => page.section === section.slug)
-        .map(({ slug, title, summary, section: s }) => ({ slug, title, summary, section: s })),
+        .map(({ slug, title, summary, section: s }) => ({
+          slug,
+          title,
+          summary,
+          section: s,
+        })),
     }));
   }
 
@@ -46,7 +51,11 @@ export class DocsStore {
     }
     return this.ordered.filter((page) =>
       matchesQuery(
-        [page.title, page.summary, ...page.body.map((b) => ('text' in b ? b.text : ''))].join(' '),
+        [
+          page.title,
+          page.summary,
+          ...page.body.map((b) => ('text' in b ? b.text : '')),
+        ].join(' '),
         query,
       ),
     );

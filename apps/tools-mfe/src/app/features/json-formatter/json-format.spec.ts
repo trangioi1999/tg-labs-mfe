@@ -18,8 +18,14 @@ describe('formatJson', () => {
   });
 
   it('supports 4 spaces and tabs', () => {
-    expect(formatJson('{"a":1}', 4)).toMatchObject({ ok: true, output: '{\n    "a": 1\n}' });
-    expect(formatJson('{"a":1}', 'tab')).toMatchObject({ ok: true, output: '{\n\t"a": 1\n}' });
+    expect(formatJson('{"a":1}', 4)).toMatchObject({
+      ok: true,
+      output: '{\n    "a": 1\n}',
+    });
+    expect(formatJson('{"a":1}', 'tab')).toMatchObject({
+      ok: true,
+      output: '{\n\t"a": 1\n}',
+    });
   });
 
   it('rejects empty input with a helpful message', () => {
@@ -40,19 +46,28 @@ describe('formatJson', () => {
 
 describe('minifyJson', () => {
   it('removes insignificant whitespace', () => {
-    expect(minifyJson('{\n  "a": [1, 2]\n}')).toMatchObject({ ok: true, output: '{"a":[1,2]}' });
+    expect(minifyJson('{\n  "a": [1, 2]\n}')).toMatchObject({
+      ok: true,
+      output: '{"a":[1,2]}',
+    });
   });
 });
 
 describe('errorLocation', () => {
   it('parses V8 and SpiderMonkey style messages', () => {
-    expect(errorLocation('', 'Unexpected token at position 3 (line 2 column 1)')).toEqual({ line: 2, column: 1 });
-    expect(errorLocation('ab\ncd', 'JSON.parse: bad character at position 4')).toEqual({ line: 2, column: 2 });
+    expect(
+      errorLocation('', 'Unexpected token at position 3 (line 2 column 1)'),
+    ).toEqual({ line: 2, column: 1 });
+    expect(
+      errorLocation('ab\ncd', 'JSON.parse: bad character at position 4'),
+    ).toEqual({ line: 2, column: 2 });
     expect(errorLocation('', 'something else')).toBeUndefined();
   });
 
   it('points at the end of input for truncated JSON', () => {
-    expect(errorLocation('{"a":', 'Unexpected end of JSON input')).toEqual(locate('{"a":', 5));
+    expect(errorLocation('{"a":', 'Unexpected end of JSON input')).toEqual(
+      locate('{"a":', 5),
+    );
   });
 });
 
@@ -67,7 +82,13 @@ describe('describeJson', () => {
 
 describe('findSyntaxErrorOffset', () => {
   it('returns undefined for valid JSON', () => {
-    for (const valid of ['{}', '[]', '"a\\u00e9"', '-1.5e3', ' {"a":[true,false,null]} ']) {
+    for (const valid of [
+      '{}',
+      '[]',
+      '"a\\u00e9"',
+      '-1.5e3',
+      ' {"a":[true,false,null]} ',
+    ]) {
       expect(findSyntaxErrorOffset(valid)).toBeUndefined();
       expect(() => JSON.parse(valid)).not.toThrow();
     }

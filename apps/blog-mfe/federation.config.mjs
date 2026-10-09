@@ -1,16 +1,22 @@
-import { withNativeFederation, fromPackageJson } from '@angular-architects/native-federation/config';
+import {
+  withNativeFederation,
+  fromPackageJson,
+} from '@angular-architects/native-federation/config';
 
 export default withNativeFederation({
   name: 'blog-mfe',
-
-
 
   exposes: {
     // Route contract consumed by the Shell (see @tg-labs/shared-config).
     './routes': './apps/blog-mfe/src/app/blog.routes.ts',
   },
 
-  shared: fromPackageJson({ singleton: true, strictVersion: true, requiredVersion: 'auto', build: 'package' })
+  shared: fromPackageJson({
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: 'auto',
+    build: 'package',
+  })
     // includeSecondaries is an opt-out of ignoreUnusedDeps, so all of
     // @angular/core is shared to prevent mismatches.
     .patch(['@angular/core'], { includeSecondaries: { keepAll: true } }),
@@ -41,6 +47,6 @@ export default withNativeFederation({
     // ignoreUnusedDeps: true,
 
     // Opt-in: groups chunks in remoteEntry.json for smaller metadata file
-    denseChunking: true
-  }
+    denseChunking: true,
+  },
 });

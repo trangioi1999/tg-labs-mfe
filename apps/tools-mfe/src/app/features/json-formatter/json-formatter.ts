@@ -1,7 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  signal,
+} from '@angular/core';
 import { Button, PageHeader } from '@tg-labs/shared-ui';
 import { CopyButton } from '../../ui/copy-button';
-import { type JsonIndent, describeJson, formatJson, minifyJson } from './json-format';
+import {
+  type JsonIndent,
+  describeJson,
+  formatJson,
+  minifyJson,
+} from './json-format';
 
 type OutputMode = 'pretty' | 'minified';
 
@@ -18,14 +28,19 @@ export class JsonFormatter {
   protected readonly mode = signal<OutputMode>('pretty');
   protected readonly indent = signal<JsonIndent>(2);
 
-  protected readonly indentOptions: readonly { value: JsonIndent; label: string }[] = [
+  protected readonly indentOptions: readonly {
+    value: JsonIndent;
+    label: string;
+  }[] = [
     { value: 2, label: '2 spaces' },
     { value: 4, label: '4 spaces' },
     { value: 'tab', label: 'Tab' },
   ];
 
   protected readonly result = computed(() =>
-    this.mode() === 'pretty' ? formatJson(this.input(), this.indent()) : minifyJson(this.input()),
+    this.mode() === 'pretty'
+      ? formatJson(this.input(), this.indent())
+      : minifyJson(this.input()),
   );
 
   protected readonly output = computed(() => {

@@ -7,7 +7,8 @@ import { DocsHome } from './features/docs-home/docs-home';
 import { DocsSearch } from './features/search/docs-search';
 
 const pageTitle = (route: ActivatedRouteSnapshot): string =>
-  inject(DocsStore).page(route.paramMap.get('slug') ?? '')?.title ?? 'Page not found';
+  inject(DocsStore).page(route.paramMap.get('slug') ?? '')?.title ??
+  'Page not found';
 
 /** Public route contract of the Docs remote, exposed as `./routes`. */
 export const routes: Routes = [

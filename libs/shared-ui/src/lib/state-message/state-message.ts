@@ -24,17 +24,33 @@ export type StateKind = 'empty' | 'error' | 'loading';
         ></span>
       }
       @case ('error') {
-        <span class="font-mono text-sm font-semibold text-red-700 dark:text-red-400" aria-hidden="true">ERR</span>
+        <span
+          class="font-mono text-sm font-semibold text-red-700 dark:text-red-400"
+          aria-hidden="true"
+          >ERR</span
+        >
       }
       @default {
-        <span class="font-mono text-sm font-semibold text-zinc-400" aria-hidden="true">∅</span>
+        <span
+          class="font-mono text-sm font-semibold text-zinc-400"
+          aria-hidden="true"
+          >∅</span
+        >
       }
     }
-    <p class="mt-4 font-semibold text-zinc-900 dark:text-zinc-100">{{ heading() }}</p>
+    <p class="mt-4 font-semibold text-zinc-900 dark:text-zinc-100">
+      {{ heading() }}
+    </p>
     @if (message()) {
-      <p class="mt-1 max-w-md text-sm leading-6 text-zinc-600 dark:text-zinc-400">{{ message() }}</p>
+      <p
+        class="mt-1 max-w-md text-sm leading-6 text-zinc-600 dark:text-zinc-400"
+      >
+        {{ message() }}
+      </p>
     }
-    <div class="mt-5 flex flex-wrap justify-center gap-3 empty:hidden"><ng-content /></div>
+    <div class="mt-5 flex flex-wrap justify-center gap-3 empty:hidden">
+      <ng-content />
+    </div>
   `,
 })
 export class StateMessage {

@@ -19,8 +19,14 @@ import { DocsStore } from '../data-access/docs-store';
         >Overview</a
       >
       @for (section of sections; track section.slug) {
-        <p class="mt-6 font-mono text-xs font-medium tracking-widest text-zinc-500 uppercase">{{ section.title }}</p>
-        <ul class="mt-2 space-y-0.5 border-l border-zinc-200 dark:border-zinc-800">
+        <p
+          class="mt-6 font-mono text-xs font-medium tracking-widest text-zinc-500 uppercase"
+        >
+          {{ section.title }}
+        </p>
+        <ul
+          class="mt-2 space-y-0.5 border-l border-zinc-200 dark:border-zinc-800"
+        >
           @for (page of section.pages; track page.slug) {
             <li>
               <a
@@ -34,7 +40,11 @@ import { DocsStore } from '../data-access/docs-store';
           }
         </ul>
       }
-      <a [routerLink]="searchLink" class="mt-6 inline-block text-zinc-600 hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white">Search docs →</a>
+      <a
+        [routerLink]="searchLink"
+        class="mt-6 inline-block text-zinc-600 hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white"
+        >Search docs →</a
+      >
     </nav>
   `,
 })

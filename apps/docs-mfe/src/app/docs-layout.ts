@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Container, SplitLayout } from '@tg-labs/shared-layout';
 import { DocsNav } from './navigation/docs-nav';

@@ -2,7 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { JsonFormatter } from './json-formatter';
 
 async function setup() {
-  await TestBed.configureTestingModule({ imports: [JsonFormatter] }).compileComponents();
+  await TestBed.configureTestingModule({
+    imports: [JsonFormatter],
+  }).compileComponents();
   const fixture = TestBed.createComponent(JsonFormatter);
   await fixture.whenStable();
   const element = fixture.nativeElement as HTMLElement;
@@ -13,7 +15,8 @@ async function setup() {
     input.dispatchEvent(new Event('input'));
     await fixture.whenStable();
   };
-  const output = () => element.querySelector<HTMLTextAreaElement>('#json-output')?.value;
+  const output = () =>
+    element.querySelector<HTMLTextAreaElement>('#json-output')?.value;
   return { element, type, output };
 }
 
@@ -24,7 +27,9 @@ describe('JsonFormatter', () => {
     await type('{"a":[1,2]}');
 
     expect(output()).toBe('{\n  "a": [\n    1,\n    2\n  ]\n}');
-    expect(element.querySelector('#json-status')?.textContent).toContain('Valid JSON');
+    expect(element.querySelector('#json-status')?.textContent).toContain(
+      'Valid JSON',
+    );
   });
 
   it('shows an error with a location for invalid JSON', async () => {

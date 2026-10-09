@@ -4,24 +4,14 @@
   "projectType": "application",
   "prefix": "tg",
   "sourceRoot": "apps/blog-mfe/src",
-  "tags": [
-    "type:app",
-    "scope:blog"
-  ],
+  "tags": ["type:app", "scope:blog"],
   "targets": {
     "build": {
       "executor": "@angular-architects/native-federation:build",
       "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ],
-      "outputs": [
-        "{workspaceRoot}/dist/apps/blog-mfe"
-      ],
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "outputs": ["{workspaceRoot}/dist/apps/blog-mfe"],
       "options": {
         "cacheExternalArtifacts": true,
         "tsConfig": "apps/blog-mfe/tsconfig.federation.json"
@@ -69,9 +59,7 @@
     },
     "esbuild": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/blog-mfe",
@@ -83,12 +71,8 @@
             "input": "apps/blog-mfe/public"
           }
         ],
-        "styles": [
-          "apps/blog-mfe/src/styles.css"
-        ],
-        "polyfills": [
-          "es-module-shims"
-        ]
+        "styles": ["apps/blog-mfe/src/styles.css"],
+        "polyfills": ["es-module-shims"]
       },
       "configurations": {
         "production": {

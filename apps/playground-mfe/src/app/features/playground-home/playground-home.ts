@@ -20,13 +20,24 @@ import { EXPERIMENTS } from '../../experiments';
           <tg-card [interactive]="experiment.status === 'live'" class="w-full">
             <div class="flex items-center justify-between gap-2">
               @if (experiment.status === 'live') {
-                <a [routerLink]="link(experiment.slug)" class="font-semibold text-zinc-950 after:absolute after:inset-0 after:content-[''] dark:text-white">{{ experiment.title }}</a>
+                <a
+                  [routerLink]="link(experiment.slug)"
+                  class="font-semibold text-zinc-950 after:absolute after:inset-0 after:content-[''] dark:text-white"
+                  >{{ experiment.title }}</a
+                >
               } @else {
-                <span class="font-semibold text-zinc-500">{{ experiment.title }}</span>
+                <span class="font-semibold text-zinc-500">{{
+                  experiment.title
+                }}</span>
               }
-              <tg-badge [tone]="experiment.status === 'live' ? 'accent' : 'neutral'">{{ experiment.status }}</tg-badge>
+              <tg-badge
+                [tone]="experiment.status === 'live' ? 'accent' : 'neutral'"
+                >{{ experiment.status }}</tg-badge
+              >
             </div>
-            <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{{ experiment.summary }}</p>
+            <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+              {{ experiment.summary }}
+            </p>
           </tg-card>
         </li>
       }

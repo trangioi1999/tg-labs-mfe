@@ -5,7 +5,11 @@
 />
 
 <div class="mt-8 flex flex-wrap items-center gap-3">
-  <div class="inline-flex rounded-md border border-zinc-300 p-0.5 dark:border-zinc-700" role="group" aria-label="Output mode">
+  <div
+    class="inline-flex rounded-md border border-zinc-300 p-0.5 dark:border-zinc-700"
+    role="group"
+    aria-label="Output mode"
+  >
     <button
       type="button"
       class="rounded px-3 py-1.5 text-sm font-medium"
@@ -26,7 +30,9 @@
     </button>
   </div>
 
-  <label class="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300">
+  <label
+    class="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300"
+  >
     Indent
     <select
       #indentSelect
@@ -35,20 +41,43 @@
       (change)="setIndent(indentSelect.value)"
     >
       @for (option of indentOptions; track option.value) {
-        <option [value]="option.value" [selected]="option.value === indent()">{{ option.label }}</option>
+      <option [value]="option.value" [selected]="option.value === indent()">
+        {{ option.label }}
+      </option>
       }
     </select>
   </label>
 
   <div class="ml-auto flex gap-2">
-    <button tgButton type="button" variant="ghost" size="sm" (click)="loadSample()">Load sample</button>
-    <button tgButton type="button" variant="ghost" size="sm" [disabled]="isEmpty()" (click)="clear()">Clear</button>
+    <button
+      tgButton
+      type="button"
+      variant="ghost"
+      size="sm"
+      (click)="loadSample()"
+    >
+      Load sample
+    </button>
+    <button
+      tgButton
+      type="button"
+      variant="ghost"
+      size="sm"
+      [disabled]="isEmpty()"
+      (click)="clear()"
+    >
+      Clear
+    </button>
   </div>
 </div>
 
 <div class="mt-4 grid gap-4 lg:grid-cols-2">
   <div class="flex flex-col">
-    <label for="json-input" class="text-sm font-medium text-zinc-700 dark:text-zinc-300">Input</label>
+    <label
+      for="json-input"
+      class="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+      >Input</label
+    >
     <textarea
       id="json-input"
       #jsonInput
@@ -65,7 +94,11 @@
 
   <div class="flex flex-col">
     <div class="flex items-center justify-between">
-      <label for="json-output" class="text-sm font-medium text-zinc-700 dark:text-zinc-300">Output</label>
+      <label
+        for="json-output"
+        class="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+        >Output</label
+      >
       <tg-copy-button [text]="output()" />
     </div>
     <textarea
@@ -79,24 +112,28 @@
 </div>
 
 <div id="json-status" class="mt-4 min-h-12 text-sm" aria-live="polite">
-  @let res = result();
-  @if (isEmpty()) {
-    <p class="text-zinc-500">Waiting for input.</p>
+  @let res = result(); @if (isEmpty()) {
+  <p class="text-zinc-500">Waiting for input.</p>
+  } @else { @if (res.ok) {
+  <p class="font-medium text-accent-700 dark:text-accent-400">
+    ✓ Valid JSON
+    <span class="font-mono font-normal text-zinc-500"
+      >· {{ summary() }} · {{ output().length }} chars</span
+    >
+  </p>
   } @else {
-    @if (res.ok) {
-      <p class="font-medium text-accent-700 dark:text-accent-400">
-        ✓ Valid JSON <span class="font-mono font-normal text-zinc-500">· {{ summary() }} · {{ output().length }} chars</span>
-      </p>
-    } @else {
-      <div role="alert" class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200">
-        <p class="font-medium">
-          Invalid JSON
-          @if (res.location; as location) {
-            <span class="font-mono font-normal">— line {{ location.line }}, column {{ location.column }}</span>
-          }
-        </p>
-        <p class="mt-1 font-mono text-xs">{{ res.message }}</p>
-      </div>
-    }
-  }
+  <div
+    role="alert"
+    class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200"
+  >
+    <p class="font-medium">
+      Invalid JSON @if (res.location; as location) {
+      <span class="font-mono font-normal"
+        >— line {{ location.line }}, column {{ location.column }}</span
+      >
+      }
+    </p>
+    <p class="mt-1 font-mono text-xs">{{ res.message }}</p>
+  </div>
+  } }
 </div>

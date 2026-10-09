@@ -2,8 +2,10 @@ import { encodeBase64 } from '../base64/base64-codec';
 import { claimDate, decodeJwt, expiryState } from './jwt-decode';
 
 const segment = (value: unknown) => encodeBase64(JSON.stringify(value), true);
-const token = (payload: unknown, header: unknown = { alg: 'HS256', typ: 'JWT' }) =>
-  `${segment(header)}.${segment(payload)}.c2lnbmF0dXJl`;
+const token = (
+  payload: unknown,
+  header: unknown = { alg: 'HS256', typ: 'JWT' },
+) => `${segment(header)}.${segment(payload)}.c2lnbmF0dXJl`;
 
 describe('decodeJwt', () => {
   it('decodes header and payload without verifying the signature', () => {
@@ -25,15 +27,22 @@ describe('decodeJwt', () => {
   it('explains structural problems', () => {
     expect(decodeJwt('abc.def')).toEqual({
       ok: false,
-      message: 'A JWT has 3 dot-separated parts (header.payload.signature); this input has 2.',
+      message:
+        'A JWT has 3 dot-separated parts (header.payload.signature); this input has 2.',
     });
-    expect(decodeJwt('%%%.e30.x')).toEqual({ ok: false, message: 'The header is not valid Base64URL.' });
-    expect(decodeJwt(`${segment([1])}.e30.x`)).toEqual({ ok: false, message: 'The header must be a JSON object.' });
+    expect(decodeJwt('%%%.e30.x')).toEqual({
+      ok: false,
+      message: 'The header is not valid Base64URL.',
+    });
+    expect(decodeJwt(`${segment([1])}.e30.x`)).toEqual({
+      ok: false,
+      message: 'The header must be a JSON object.',
+    });
   });
 });
 
 describe('expiryState', () => {
-  const now = Date.UTC(2026, 0, 1) ;
+  const now = Date.UTC(2026, 0, 1);
   const nowSeconds = now / 1000;
 
   it('classifies time-based claims', () => {

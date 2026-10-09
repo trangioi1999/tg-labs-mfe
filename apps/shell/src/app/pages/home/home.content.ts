@@ -50,12 +50,36 @@ export interface Topic {
 }
 
 export const TOPICS: readonly Topic[] = [
-  { slug: 'frontend-architecture', name: 'Frontend Architecture', summary: 'Micro frontends, monorepos and module boundaries.' },
-  { slug: 'angular', name: 'Angular', summary: 'Signals, standalone APIs, routing and performance.' },
-  { slug: 'backend', name: 'Backend & APIs', summary: 'BFFs, gateways and Spring Boot services.' },
-  { slug: 'devops', name: 'DevOps & Infrastructure', summary: 'Docker, Nginx, CI/CD and VPS operations.' },
-  { slug: 'databases', name: 'Databases', summary: 'PostgreSQL modelling, indexing and migrations.' },
-  { slug: 'tooling', name: 'Tooling', summary: 'Nx, build pipelines and developer experience.' },
+  {
+    slug: 'frontend-architecture',
+    name: 'Frontend Architecture',
+    summary: 'Micro frontends, monorepos and module boundaries.',
+  },
+  {
+    slug: 'angular',
+    name: 'Angular',
+    summary: 'Signals, standalone APIs, routing and performance.',
+  },
+  {
+    slug: 'backend',
+    name: 'Backend & APIs',
+    summary: 'BFFs, gateways and Spring Boot services.',
+  },
+  {
+    slug: 'devops',
+    name: 'DevOps & Infrastructure',
+    summary: 'Docker, Nginx, CI/CD and VPS operations.',
+  },
+  {
+    slug: 'databases',
+    name: 'Databases',
+    summary: 'PostgreSQL modelling, indexing and migrations.',
+  },
+  {
+    slug: 'tooling',
+    name: 'Tooling',
+    summary: 'Nx, build pipelines and developer experience.',
+  },
 ];
 
 export interface Resource {
@@ -66,9 +90,35 @@ export interface Resource {
 }
 
 export const RESOURCES: readonly Resource[] = [
-  { title: 'JSON Formatter', description: 'Validate, pretty-print and minify JSON in the browser.', path: '/tools/json-formatter', kind: 'tool' },
-  { title: 'Base64 Encoder', description: 'Encode and decode UTF-8 text to and from Base64.', path: '/tools/base64', kind: 'tool' },
-  { title: 'JWT Decoder', description: 'Inspect a token’s header and claims. Decode only — no verification.', path: '/tools/jwt-decoder', kind: 'tool' },
-  { title: 'Engineering Docs', description: 'Guides on architecture, local setup and deployment.', path: '/docs', kind: 'docs' },
-  { title: 'Signals Lab', description: 'An interactive look at signal, computed and effect.', path: '/playground/signals-lab', kind: 'demo' },
+  {
+    title: 'JSON Formatter',
+    description: 'Validate, pretty-print and minify JSON in the browser.',
+    path: '/tools/json-formatter',
+    kind: 'tool',
+  },
+  {
+    title: 'Base64 Encoder',
+    description: 'Encode and decode UTF-8 text to and from Base64.',
+    path: '/tools/base64',
+    kind: 'tool',
+  },
+  {
+    title: 'JWT Decoder',
+    description:
+      'Inspect a token’s header and claims. Decode only — no verification.',
+    path: '/tools/jwt-decoder',
+    kind: 'tool',
+  },
+  {
+    title: 'Engineering Docs',
+    description: 'Guides on architecture, local setup and deployment.',
+    path: '/docs',
+    kind: 'docs',
+  },
+  {
+    title: 'Signals Lab',
+    description: 'An interactive look at signal, computed and effect.',
+    path: '/playground/signals-lab',
+    kind: 'demo',
+  },
 ];

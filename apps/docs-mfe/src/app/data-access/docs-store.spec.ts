@@ -10,8 +10,15 @@ describe('DocsStore', () => {
 
   it('groups pages into ordered sections', () => {
     const sections = store.sections();
-    expect(sections.map((s) => s.slug)).toEqual(['getting-started', 'architecture', 'operations']);
-    expect(sections[0].pages.map((p) => p.slug)).toEqual(['introduction', 'local-development']);
+    expect(sections.map((s) => s.slug)).toEqual([
+      'getting-started',
+      'architecture',
+      'operations',
+    ]);
+    expect(sections[0].pages.map((p) => p.slug)).toEqual([
+      'introduction',
+      'local-development',
+    ]);
   });
 
   it('returns previous/next pages across sections', () => {
@@ -22,7 +29,9 @@ describe('DocsStore', () => {
   });
 
   it('searches titles, summaries and body text', () => {
-    expect(store.search('loadChildren').map((p) => p.slug)).toEqual(['routing-contract']);
+    expect(store.search('loadChildren').map((p) => p.slug)).toEqual([
+      'routing-contract',
+    ]);
     expect(store.search('')).toEqual([]);
   });
 });

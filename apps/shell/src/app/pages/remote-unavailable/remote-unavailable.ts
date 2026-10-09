@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, DOCUMENT, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DOCUMENT,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import type { RemoteDefinition } from '@tg-labs/shared-config';
 import { Container } from '@tg-labs/shared-layout';

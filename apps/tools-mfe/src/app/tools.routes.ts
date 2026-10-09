@@ -12,8 +12,16 @@ export const routes: Routes = [
     component: ToolsLayout,
     children: [
       { path: '', component: ToolsHome, title: 'Tools' },
-      { path: 'json-formatter', component: JsonFormatter, title: 'JSON Formatter' },
-      { path: 'base64', component: Base64Tool, title: 'Base64 Encoder / Decoder' },
+      {
+        path: 'json-formatter',
+        component: JsonFormatter,
+        title: 'JSON Formatter',
+      },
+      {
+        path: 'base64',
+        component: Base64Tool,
+        title: 'Base64 Encoder / Decoder',
+      },
       { path: 'jwt-decoder', component: JwtDecoder, title: 'JWT Decoder' },
     ],
   },

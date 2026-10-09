@@ -18,10 +18,19 @@ import { Header } from './layout/header/header';
       >Skip to content</a
     >
     <tg-header />
-    <main id="main" tabindex="-1" class="flex-1 focus:outline-none" [attr.aria-busy]="navState.navigating()">
+    <main
+      id="main"
+      tabindex="-1"
+      class="flex-1 focus:outline-none"
+      [attr.aria-busy]="navState.navigating()"
+    >
       @if (navState.loadingSection(); as section) {
         <tg-container class="py-16">
-          <tg-state-message kind="loading" [heading]="'Loading ' + section + '…'" message="Fetching this section of the site." />
+          <tg-state-message
+            kind="loading"
+            [heading]="'Loading ' + section + '…'"
+            message="Fetching this section of the site."
+          />
         </tg-container>
       }
       <div [hidden]="navState.loadingSection() !== null">

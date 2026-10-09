@@ -23,7 +23,10 @@ export function locate(input: string, position: number): JsonErrorLocation {
  * V8 ("... at position 12 (line 2 column 5)") and SpiderMonkey
  * ("... at line 2 column 5 of the JSON data").
  */
-export function errorLocation(input: string, message: string): JsonErrorLocation | undefined {
+export function errorLocation(
+  input: string,
+  message: string,
+): JsonErrorLocation | undefined {
   const lineColumn = /line (\d+) column (\d+)/i.exec(message);
   if (lineColumn) {
     return { line: Number(lineColumn[1]), column: Number(lineColumn[2]) };
@@ -172,9 +175,14 @@ export function findSyntaxErrorOffset(text: string): number | undefined {
   }
 }
 
-function parse(input: string): { ok: true; value: unknown } | Extract<JsonResult, { ok: false }> {
+function parse(
+  input: string,
+): { ok: true; value: unknown } | Extract<JsonResult, { ok: false }> {
   if (!input.trim()) {
-    return { ok: false, message: 'Input is empty. Paste some JSON to get started.' };
+    return {
+      ok: false,
+      message: 'Input is empty. Paste some JSON to get started.',
+    };
   }
   try {
     return { ok: true, value: JSON.parse(input) as unknown };
@@ -184,7 +192,10 @@ function parse(input: string): { ok: true; value: unknown } | Extract<JsonResult
     return {
       ok: false,
       message,
-      location: offset === undefined ? errorLocation(input, message) : locate(input, offset),
+      location:
+        offset === undefined
+          ? errorLocation(input, message)
+          : locate(input, offset),
     };
   }
 }
@@ -196,7 +207,11 @@ export function formatJson(input: string, indent: JsonIndent = 2): JsonResult {
     return parsed;
   }
   const space = indent === 'tab' ? '\t' : indent;
-  return { ok: true, value: parsed.value, output: JSON.stringify(parsed.value, null, space) };
+  return {
+    ok: true,
+    value: parsed.value,
+    output: JSON.stringify(parsed.value, null, space),
+  };
 }
 
 /** Validates and minifies JSON. */
@@ -205,7 +220,11 @@ export function minifyJson(input: string): JsonResult {
   if (!parsed.ok) {
     return parsed;
   }
-  return { ok: true, value: parsed.value, output: JSON.stringify(parsed.value) };
+  return {
+    ok: true,
+    value: parsed.value,
+    output: JSON.stringify(parsed.value),
+  };
 }
 
 /** Short structural description, e.g. "object · 3 keys" or "array · 10 items". */

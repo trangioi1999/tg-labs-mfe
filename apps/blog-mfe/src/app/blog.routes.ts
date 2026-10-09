@@ -11,7 +11,8 @@ import { TagDetail } from './features/tag/tag-detail';
 import { TagIndex } from './features/tag/tag-index';
 
 const articleTitle = (route: ActivatedRouteSnapshot): string =>
-  inject(ArticleStore).bySlug(route.paramMap.get('slug') ?? '')?.title ?? 'Article not found';
+  inject(ArticleStore).bySlug(route.paramMap.get('slug') ?? '')?.title ??
+  'Article not found';
 
 /**
  * Public route contract of the Blog remote, exposed via Native Federation as

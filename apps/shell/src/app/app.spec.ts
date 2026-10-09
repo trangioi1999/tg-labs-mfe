@@ -24,7 +24,9 @@ describe('App (shell layout)', () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const links = Array.from(
-      (fixture.nativeElement as HTMLElement).querySelectorAll('nav[aria-label="Primary"] a'),
+      (fixture.nativeElement as HTMLElement).querySelectorAll(
+        'nav[aria-label="Primary"] a',
+      ),
     ).map((a) => a.getAttribute('href'));
 
     expect(links).toEqual(['/blog', '/docs', '/tools', '/playground']);

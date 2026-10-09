@@ -17,7 +17,8 @@ initFederation('federation.manifest.json', {
     (federation): RemoteModuleLoader => federation.loadRemoteModule,
     (error: unknown): RemoteModuleLoader => {
       console.error('[shell] Native Federation failed to initialise', error);
-      return () => Promise.reject(new Error('Native Federation is not initialised'));
+      return () =>
+        Promise.reject(new Error('Native Federation is not initialised'));
     },
   )
   .then((loader) => import('./bootstrap').then((m) => m.bootstrap(loader)))

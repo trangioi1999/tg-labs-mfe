@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { remoteLink } from '@tg-labs/shared-config';
@@ -13,7 +18,11 @@ import { DocsStore } from '../../data-access/docs-store';
   template: `
     <tg-page-header eyebrow="Docs" heading="Search documentation" />
     <form role="search" class="mt-8" (submit)="$event.preventDefault()">
-      <label for="docs-search" class="text-sm font-medium text-zinc-700 dark:text-zinc-300">Search all pages</label>
+      <label
+        for="docs-search"
+        class="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+        >Search all pages</label
+      >
       <input
         id="docs-search"
         #searchInput
@@ -31,13 +40,22 @@ import { DocsStore } from '../../data-access/docs-store';
           <ul class="divide-y divide-zinc-200 dark:divide-zinc-800">
             @for (page of results(); track page.slug) {
               <li class="py-4">
-                <a [routerLink]="link(page.slug)" class="font-medium text-zinc-950 hover:text-accent-700 dark:text-white dark:hover:text-accent-400">{{ page.title }}</a>
-                <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{{ page.summary }}</p>
+                <a
+                  [routerLink]="link(page.slug)"
+                  class="font-medium text-zinc-950 hover:text-accent-700 dark:text-white dark:hover:text-accent-400"
+                  >{{ page.title }}</a
+                >
+                <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                  {{ page.summary }}
+                </p>
               </li>
             }
           </ul>
         } @else {
-          <tg-state-message heading="No matching pages" message="Try a different keyword." />
+          <tg-state-message
+            heading="No matching pages"
+            message="Try a different keyword."
+          />
         }
       }
     </div>

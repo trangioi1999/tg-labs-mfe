@@ -17,7 +17,10 @@ export const appRoutes: Route[] = [
   },
   { path: REMOTES.blog.basePath, loadChildren: loadRemoteRoutes(REMOTES.blog) },
   { path: REMOTES.docs.basePath, loadChildren: loadRemoteRoutes(REMOTES.docs) },
-  { path: REMOTES.tools.basePath, loadChildren: loadRemoteRoutes(REMOTES.tools) },
+  {
+    path: REMOTES.tools.basePath,
+    loadChildren: loadRemoteRoutes(REMOTES.tools),
+  },
   {
     path: REMOTES.playground.basePath,
     loadChildren: loadRemoteRoutes(REMOTES.playground),

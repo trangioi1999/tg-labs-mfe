@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { remoteLink } from '@tg-labs/shared-config';
 import { Container, SplitLayout } from '@tg-labs/shared-layout';
@@ -23,7 +27,9 @@ import { TOOLS } from './tools.catalog';
             class="font-semibold text-zinc-950 dark:text-white"
             >All tools</a
           >
-          <ul class="mt-3 space-y-0.5 border-l border-zinc-200 dark:border-zinc-800">
+          <ul
+            class="mt-3 space-y-0.5 border-l border-zinc-200 dark:border-zinc-800"
+          >
             @for (tool of tools; track tool.slug) {
               <li>
                 <a
@@ -36,7 +42,9 @@ import { TOOLS } from './tools.catalog';
               </li>
             }
           </ul>
-          <p class="mt-6 rounded-md bg-zinc-50 p-3 text-xs leading-5 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
+          <p
+            class="mt-6 rounded-md bg-zinc-50 p-3 text-xs leading-5 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400"
+          >
             Everything runs locally in your browser. Inputs are never uploaded.
           </p>
         </nav>

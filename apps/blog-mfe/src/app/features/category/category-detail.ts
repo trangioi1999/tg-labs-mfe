@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { remoteLink } from '@tg-labs/shared-config';
@@ -13,15 +18,25 @@ import { ArticleTeasers } from '../../ui/article-teasers';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (category(); as category) {
-      <tg-page-header eyebrow="Category" [heading]="category.name" [description]="category.description" />
+      <tg-page-header
+        eyebrow="Category"
+        [heading]="category.name"
+        [description]="category.description"
+      />
       @if (articles().length) {
         <tg-article-teasers [articles]="articles()" />
       } @else {
-        <tg-state-message class="mt-8" heading="No articles yet" message="This category is ready for its first post." />
+        <tg-state-message
+          class="mt-8"
+          heading="No articles yet"
+          message="This category is ready for its first post."
+        />
       }
     } @else {
       <tg-state-message heading="Category not found">
-        <a tgButton variant="secondary" [routerLink]="indexLink">All categories</a>
+        <a tgButton variant="secondary" [routerLink]="indexLink"
+          >All categories</a
+        >
       </tg-state-message>
     }
   `,
@@ -33,7 +48,11 @@ export class CategoryDetail {
     { requireSync: true },
   );
 
-  protected readonly category = computed(() => this.store.category(this.slug()));
-  protected readonly articles = computed(() => this.store.byCategory(this.slug()));
+  protected readonly category = computed(() =>
+    this.store.category(this.slug()),
+  );
+  protected readonly articles = computed(() =>
+    this.store.byCategory(this.slug()),
+  );
   protected readonly indexLink = remoteLink('blog', 'categories');
 }

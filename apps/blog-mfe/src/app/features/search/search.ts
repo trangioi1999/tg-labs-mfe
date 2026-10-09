@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageHeader, StateMessage } from '@tg-labs/shared-ui';
@@ -17,7 +22,11 @@ import { ArticleTeasers } from '../../ui/article-teasers';
   template: `
     <tg-page-header eyebrow="Blog" heading="Search articles" />
     <form role="search" class="mt-8" (submit)="$event.preventDefault()">
-      <label for="blog-search" class="text-sm font-medium text-zinc-700 dark:text-zinc-300">Search by title, topic or tag</label>
+      <label
+        for="blog-search"
+        class="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+        >Search by title, topic or tag</label
+      >
       <input
         id="blog-search"
         type="search"
@@ -31,11 +40,20 @@ import { ArticleTeasers } from '../../ui/article-teasers';
     </form>
     <div class="mt-6" aria-live="polite">
       @if (query().trim()) {
-        <p class="text-sm text-zinc-500">{{ results().length }} {{ results().length === 1 ? 'result' : 'results' }} for “{{ query() }}”</p>
+        <p class="text-sm text-zinc-500">
+          {{ results().length }}
+          {{ results().length === 1 ? 'result' : 'results' }} for “{{
+            query()
+          }}”
+        </p>
         @if (results().length) {
           <tg-article-teasers [articles]="results()" />
         } @else {
-          <tg-state-message class="mt-6" heading="No matching articles" message="Try a broader term or browse by tag." />
+          <tg-state-message
+            class="mt-6"
+            heading="No matching articles"
+            message="Try a broader term or browse by tag."
+          />
         }
       }
     </div>

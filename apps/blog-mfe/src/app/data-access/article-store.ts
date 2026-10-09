@@ -44,7 +44,10 @@ export class ArticleStore {
   }
 
   categories(): readonly CategoryWithCount[] {
-    return CATEGORIES.map((c) => ({ ...c, count: this.byCategory(c.slug).length }));
+    return CATEGORIES.map((c) => ({
+      ...c,
+      count: this.byCategory(c.slug).length,
+    }));
   }
 
   tags(): readonly TagWithCount[] {
@@ -64,7 +67,10 @@ export class ArticleStore {
       return [];
     }
     return this.articles.filter((a) =>
-      matchesQuery([a.title, a.excerpt, a.tags.join(' '), a.category].join(' '), query),
+      matchesQuery(
+        [a.title, a.excerpt, a.tags.join(' '), a.category].join(' '),
+        query,
+      ),
     );
   }
 }

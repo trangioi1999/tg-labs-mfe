@@ -12,7 +12,9 @@ describe('NotFound', () => {
     await fixture.whenStable();
     const element = fixture.nativeElement as HTMLElement;
 
-    expect(element.querySelector('h1')?.textContent).toContain('Page not found');
+    expect(element.querySelector('h1')?.textContent).toContain(
+      'Page not found',
+    );
     expect(element.querySelector('a[href="/"]')).not.toBeNull();
   });
 });

@@ -11,7 +11,9 @@ export interface DecodedJwt {
   signature: string;
 }
 
-export type JwtResult = { ok: true; token: DecodedJwt } | { ok: false; message: string };
+export type JwtResult =
+  | { ok: true; token: DecodedJwt }
+  | { ok: false; message: string };
 
 function decodeSegment(segment: string, name: string): Record<string, unknown> {
   const decoded = decodeBase64(segment);
@@ -52,7 +54,10 @@ export function decodeJwt(input: string): JwtResult {
       },
     };
   } catch (error: unknown) {
-    return { ok: false, message: error instanceof Error ? error.message : String(error) };
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : String(error),
+    };
   }
 }
 
@@ -62,7 +67,10 @@ export type ExpiryState = 'expired' | 'valid' | 'not-yet-valid' | 'unknown';
  * Describes the time-based claims (`exp`, `nbf`) relative to `now`.
  * This is informational only and says nothing about authenticity.
  */
-export function expiryState(payload: Record<string, unknown>, now = Date.now()): ExpiryState {
+export function expiryState(
+  payload: Record<string, unknown>,
+  now = Date.now(),
+): ExpiryState {
   const seconds = now / 1000;
   const { exp, nbf } = payload;
   if (typeof nbf === 'number' && seconds < nbf) {

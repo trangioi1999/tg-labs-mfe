@@ -3,17 +3,24 @@ import type { Route, Routes } from '@angular/router';
 import { REMOTES } from '@tg-labs/shared-config';
 import { RemoteUnavailable } from '../../pages/remote-unavailable/remote-unavailable';
 import { loadRemoteRoutes } from './load-remote-routes';
-import { REMOTE_MODULE_LOADER, type RemoteModuleLoader } from './remote-module-loader';
+import {
+  REMOTE_MODULE_LOADER,
+  type RemoteModuleLoader,
+} from './remote-module-loader';
 
 function run(loader: RemoteModuleLoader, timeoutMs?: number): Promise<Routes> {
   TestBed.configureTestingModule({
     providers: [{ provide: REMOTE_MODULE_LOADER, useValue: loader }],
   });
-  return TestBed.runInInjectionContext(() => loadRemoteRoutes(REMOTES.blog, timeoutMs)());
+  return TestBed.runInInjectionContext(() =>
+    loadRemoteRoutes(REMOTES.blog, timeoutMs)(),
+  );
 }
 
 describe('loadRemoteRoutes', () => {
-  beforeEach(() => vi.spyOn(console, 'error').mockImplementation(() => undefined));
+  beforeEach(() =>
+    vi.spyOn(console, 'error').mockImplementation(() => undefined),
+  );
 
   it('returns the routes exposed by the remote', async () => {
     const remoteRoutes: Route[] = [{ path: '' }];
