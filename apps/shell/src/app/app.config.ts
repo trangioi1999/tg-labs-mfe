@@ -9,12 +9,17 @@ import {
 } from '@angular/router';
 import { appRoutes } from './app.routes';
 import {
-  REMOTE_MODULE_LOADER,
-  type RemoteModuleLoader,
-} from './core/federation/remote-module-loader';
+  FEDERATION_RUNTIME,
+  type FederationRuntime,
+  REMOTE_MANIFEST,
+  type RemoteManifest,
+} from './core/federation/remote-registry';
 import { SiteTitleStrategy } from './core/site-title-strategy';
 
-export function createAppConfig(loader: RemoteModuleLoader): ApplicationConfig {
+export function createAppConfig(
+  manifest: RemoteManifest,
+  runtime: FederationRuntime,
+): ApplicationConfig {
   return {
     providers: [
       provideBrowserGlobalErrorListeners(),
@@ -26,7 +31,8 @@ export function createAppConfig(loader: RemoteModuleLoader): ApplicationConfig {
         }),
       ),
       { provide: TitleStrategy, useClass: SiteTitleStrategy },
-      { provide: REMOTE_MODULE_LOADER, useValue: loader },
+      { provide: REMOTE_MANIFEST, useValue: manifest },
+      { provide: FEDERATION_RUNTIME, useValue: runtime },
     ],
   };
 }

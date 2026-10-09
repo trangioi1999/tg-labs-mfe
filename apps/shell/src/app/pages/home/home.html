@@ -25,10 +25,13 @@
           plus the small tools and experiments that come out of building them.
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
+          @if (blogEnabled) {
           <a tgButton routerLink="/blog">Read the blog</a>
+          } @if (toolsEnabled) {
           <a tgButton variant="secondary" routerLink="/tools"
             >Open developer tools</a
           >
+          }
         </div>
       </div>
 
@@ -47,11 +50,8 @@
         <pre
           class="p-5 leading-7 text-zinc-300"
         ><span class="text-zinc-500">{{ '{' }}</span>
-  <span class="text-accent-300">"blog-mfe"</span>: <span class="text-zinc-400">"/mfe/blog/…"</span>,
-  <span class="text-accent-300">"docs-mfe"</span>: <span class="text-zinc-400">"/mfe/docs/…"</span>,
-  <span class="text-accent-300">"tools-mfe"</span>: <span class="text-zinc-400">"/mfe/tools/…"</span>,
-  <span class="text-accent-300">"playground-mfe"</span>: <span class="text-zinc-400">"/mfe/…"</span>
-<span class="text-zinc-500">{{ '}' }}</span>
+@for (remote of remotes; track remote.name; let last = $last) {  <span class="text-accent-300">"{{ remote.name }}"</span>: <span class="text-zinc-400">"/mfe/{{ remote.basePath }}/…"</span>{{ last ? '' : ',' }}
+}<span class="text-zinc-500">{{ '}' }}</span>
 <span class="text-zinc-500">$</span> nx affected -t lint test build
 <span class="text-accent-400">✔</span> <span class="text-zinc-400">5 apps · 5 libs · one shell</span></pre>
       </div>
@@ -59,6 +59,7 @@
   </tg-container>
 </section>
 
+@if (blogEnabled) {
 <section class="py-16" aria-labelledby="featured-title">
   <tg-container width="wide">
     <div class="flex items-end justify-between gap-4">
@@ -154,7 +155,7 @@
     </ul>
   </tg-container>
 </section>
-
+} @if (resources.length) {
 <section class="py-16" aria-labelledby="resources-title">
   <tg-container width="wide">
     <p class="font-mono text-xs tracking-widest text-zinc-500 uppercase">
@@ -193,3 +194,4 @@
     </ul>
   </tg-container>
 </section>
+}

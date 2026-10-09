@@ -5,7 +5,7 @@ import {
   type RemoteDefinition,
 } from '@tg-labs/shared-config';
 import { RemoteUnavailable } from '../../pages/remote-unavailable/remote-unavailable';
-import { REMOTE_MODULE_LOADER } from './remote-module-loader';
+import { RemoteRegistry } from './remote-registry';
 
 /** Shape every remote exposes under `REMOTE_ROUTES_MODULE`. */
 export interface RemoteRoutesModule {
@@ -57,10 +57,10 @@ export function loadRemoteRoutes(
   timeoutMs = REMOTE_LOAD_TIMEOUT_MS,
 ): () => Promise<Routes> {
   return async () => {
-    const loadRemoteModule = inject(REMOTE_MODULE_LOADER);
+    const registry = inject(RemoteRegistry);
     try {
       const module = await withTimeout(
-        loadRemoteModule<unknown>(remote.name, REMOTE_ROUTES_MODULE),
+        registry.loadModule<unknown>(remote.name, REMOTE_ROUTES_MODULE),
         timeoutMs,
         remote.name,
       );

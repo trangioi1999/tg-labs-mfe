@@ -3,14 +3,15 @@ import type { Route, Routes } from '@angular/router';
 import { REMOTES } from '@tg-labs/shared-config';
 import { RemoteUnavailable } from '../../pages/remote-unavailable/remote-unavailable';
 import { loadRemoteRoutes } from './load-remote-routes';
-import {
-  REMOTE_MODULE_LOADER,
-  type RemoteModuleLoader,
-} from './remote-module-loader';
+import type { FederationRuntime } from './remote-registry';
+import { provideFakeFederation } from './testing';
 
-function run(loader: RemoteModuleLoader, timeoutMs?: number): Promise<Routes> {
+function run(
+  loadRemoteModule: FederationRuntime['loadRemoteModule'],
+  timeoutMs?: number,
+): Promise<Routes> {
   TestBed.configureTestingModule({
-    providers: [{ provide: REMOTE_MODULE_LOADER, useValue: loader }],
+    providers: provideFakeFederation(undefined, { loadRemoteModule }),
   });
   return TestBed.runInInjectionContext(() =>
     loadRemoteRoutes(REMOTES.blog, timeoutMs)(),
@@ -26,16 +27,14 @@ describe('loadRemoteRoutes', () => {
     const remoteRoutes: Route[] = [{ path: '' }];
     const loader = vi.fn().mockResolvedValue({ routes: remoteRoutes });
 
-    const routes = await run(loader as RemoteModuleLoader);
+    const routes = await run(loader);
 
     expect(loader).toHaveBeenCalledWith('blog-mfe', './routes');
     expect(routes).toBe(remoteRoutes);
   });
 
   it('falls back to the unavailable page when the remote fails', async () => {
-    const loader = vi.fn().mockRejectedValue(new Error('offline'));
-
-    const routes = await run(loader as RemoteModuleLoader);
+    const routes = await run(vi.fn().mockRejectedValue(new Error('offline')));
 
     expect(routes).toHaveLength(1);
     expect(routes[0].path).toBe('**');
@@ -44,17 +43,18 @@ describe('loadRemoteRoutes', () => {
   });
 
   it('falls back when the module has no routes export', async () => {
-    const loader = vi.fn().mockResolvedValue({ somethingElse: true });
-
-    const routes = await run(loader as RemoteModuleLoader);
+    const routes = await run(
+      vi.fn().mockResolvedValue({ somethingElse: true }),
+    );
 
     expect(routes[0].component).toBe(RemoteUnavailable);
   });
 
   it('falls back when the remote does not answer in time', async () => {
-    const loader = vi.fn().mockReturnValue(new Promise(() => undefined));
-
-    const routes = await run(loader as RemoteModuleLoader, 10);
+    const routes = await run(
+      vi.fn().mockReturnValue(new Promise(() => undefined)),
+      10,
+    );
 
     expect(routes[0].component).toBe(RemoteUnavailable);
   });

@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { REMOTE_LIST, SITE } from '@tg-labs/shared-config';
+import { SITE } from '@tg-labs/shared-config';
 import { Container } from '@tg-labs/shared-layout';
 import { PageHeader } from '@tg-labs/shared-ui';
+import { RemoteRegistry } from '../../core/federation/remote-registry';
 
 @Component({
   selector: 'tg-about',
@@ -46,5 +47,5 @@ import { PageHeader } from '@tg-labs/shared-ui';
 })
 export class About {
   protected readonly site = SITE;
-  protected readonly remotes = REMOTE_LIST;
+  protected readonly remotes = inject(RemoteRegistry).enabled;
 }

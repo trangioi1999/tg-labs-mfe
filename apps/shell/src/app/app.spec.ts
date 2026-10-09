@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { App } from './app';
+import { provideFakeFederation } from './core/federation/testing';
 
 describe('App (shell layout)', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), provideFakeFederation()],
     }).compileComponents();
   });
 
@@ -30,5 +31,25 @@ describe('App (shell layout)', () => {
     ).map((a) => a.getAttribute('href'));
 
     expect(links).toEqual(['/blog', '/docs', '/tools', '/playground']);
+  });
+
+  it('hides sections that are disabled in the manifest', async () => {
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({
+      imports: [App],
+      providers: [
+        provideRouter([]),
+        provideFakeFederation({ 'tools-mfe': '/mfe/tools/remoteEntry.json' }),
+      ],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    const links = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll(
+        'nav[aria-label="Primary"] a',
+      ),
+    ).map((a) => a.getAttribute('href'));
+
+    expect(links).toEqual(['/tools']);
   });
 });
