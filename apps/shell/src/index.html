@@ -12,14 +12,23 @@
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <script>
-      // Apply the colour theme before first paint (key must match ThemeService).
+      // Apply visitor preferences before first paint (see PreferencesService).
       try {
-        var stored = localStorage.getItem('tg-theme');
+        var root = document.documentElement;
+        var prefs = JSON.parse(localStorage.getItem('tg-preferences') || '{}');
+        var theme = prefs.theme || localStorage.getItem('tg-theme') || 'system';
         if (
-          stored === 'dark' ||
-          (!stored && matchMedia('(prefers-color-scheme: dark)').matches)
+          theme === 'dark' ||
+          (theme === 'system' &&
+            matchMedia('(prefers-color-scheme: dark)').matches)
         ) {
-          document.documentElement.classList.add('dark');
+          root.classList.add('dark');
+        }
+        if (typeof prefs.accent === 'string' && prefs.accent !== 'teal') {
+          root.dataset.accent = prefs.accent;
+        }
+        if (prefs.fontScale === 'sm' || prefs.fontScale === 'lg') {
+          root.dataset.fontScale = prefs.fontScale;
         }
       } catch (e) {}
     </script>

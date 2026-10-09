@@ -11,7 +11,7 @@ and managed in one **Nx** monorepo.
 
 | Section    | Application      | What it owns                                                |
 | ---------- | ---------------- | ----------------------------------------------------------- |
-| Home       | `shell`          | Global layout, navigation, home page, 404, error states     |
+| Home       | `shell`          | Global layout, navigation, home page, settings, 404, errors |
 | Blog       | `blog-mfe`       | Article list/detail, categories, tags, search               |
 | Docs       | `docs-mfe`       | Documentation landing, navigation, page viewer, search      |
 | Tools      | `tools-mfe`      | JSON Formatter/Validator, Base64, JWT decoder (decode only) |
@@ -45,6 +45,10 @@ flowchart LR
 4. If a remote is unreachable, the Shell renders a "temporarily unavailable" page for that section; the rest of the site keeps working.
 
 More detail: [docs/architecture.md](docs/architecture.md). All guides are indexed in [docs/README.md](docs/README.md).
+
+## Settings
+
+`/settings` lets each visitor choose the theme (light, dark, system), an accent colour and the text size. They can also hide sections and home page blocks. A dashboard shows the live status of every micro frontend. Preferences are stored in the browser only. See [docs/architecture.md](docs/architecture.md#settings-and-visitor-preferences).
 
 ## Technology stack
 
@@ -194,7 +198,7 @@ Caching:
 
 - Content is local mock data (blog articles, docs pages, homepage features). There is no CMS or database yet.
 - Remote styling: each remote ships its own Tailwind utilities, scoped to its root element. Utilities are therefore duplicated between apps (a few KB gzipped each).
-- `index.html` contains a small inline theme script, so a strict CSP needs a hash for it. No CSP is configured yet.
+- `index.html` contains a small inline preferences script, so a strict CSP needs a hash for it. No CSP is configured yet.
 - The BFF image installs every production dependency in the workspace, including Angular (about 416 MB). A dedicated BFF dependency manifest would shrink it.
 - The Java services (Spring Cloud Gateway, Content Service), PostgreSQL and Redis are planned but not scaffolded.
 - There are no end-to-end tests in CI yet. Federation was verified with a local Playwright smoke run; see `docs/local-development.md`.
