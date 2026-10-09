@@ -1,0 +1,41 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+tmp
+out-tsc
+coverage
+*.tsbuildinfo
+
+# Nx
+.nx/cache
+.nx/workspace-data
+.nx/polygraph
+
+# Angular
+.angular
+
+# IDE
+.idea
+.vscode/*
+!.vscode/extensions.json
+*.swp
+.DS_Store
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Playwright / test artifacts
+test-results
+playwright-report
+
+__screenshots__/
+vitest.config.*.timestamp*
+.vitest

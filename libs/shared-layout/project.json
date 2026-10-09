@@ -1,0 +1,12 @@
+{
+  "name": "shared-layout",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared-layout/src",
+  "prefix": "tg",
+  "projectType": "library",
+  "tags": [
+    "scope:shared",
+    "type:ui"
+  ],
+  "targets": {}
+}
