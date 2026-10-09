@@ -1,0 +1,35 @@
+# Static server for the Shell image (rendered by the nginx entrypoint's
+# envsubst step into /etc/nginx/conf.d/default.conf).
+server {
+    listen 8080;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+    server_tokens off;
+
+    location = /healthz {
+        access_log off;
+        default_type text/plain;
+        return 200 "ok\n";
+    }
+
+    # Federation metadata (remoteEntry.json, importmap.json,
+    # federation.manifest.json) must always be revalidated.
+    location ~* \.json$ {
+        add_header Cache-Control "no-cache" always;
+        try_files $uri =404;
+    }
+
+    # Every JS/CSS bundle has a content hash in its file name.
+    location ~* \.(?:js|css)$ {
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        try_files $uri =404;
+    }
+
+    # SPA fallback: every page route (/, /blog/..., /docs/...) renders index.html
+    # so deep links and browser refresh work.
+    location / {
+        add_header Cache-Control "no-cache" always;
+        try_files $uri $uri/ /index.html;
+    }
+}

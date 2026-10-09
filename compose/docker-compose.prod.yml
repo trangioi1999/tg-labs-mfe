@@ -1,0 +1,39 @@
+# VPS override: run pre-built images from a registry (no local builds) with
+# bounded logs. Set IMAGE_REGISTRY and IMAGE_TAG in the server's .env file.
+#   docker compose --env-file .env -f compose/docker-compose.yml -f compose/docker-compose.prod.yml pull
+#   docker compose --env-file .env -f compose/docker-compose.yml -f compose/docker-compose.prod.yml up -d --no-build
+x-logging: &logging
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: '3'
+
+services:
+  shell:
+    <<: *logging
+    pull_policy: always
+    restart: always
+  blog-mfe:
+    <<: *logging
+    pull_policy: always
+    restart: always
+  docs-mfe:
+    <<: *logging
+    pull_policy: always
+    restart: always
+  tools-mfe:
+    <<: *logging
+    pull_policy: always
+    restart: always
+  playground-mfe:
+    <<: *logging
+    pull_policy: always
+    restart: always
+  bff:
+    <<: *logging
+    pull_policy: always
+    restart: always
+  gateway:
+    <<: *logging
+    restart: always

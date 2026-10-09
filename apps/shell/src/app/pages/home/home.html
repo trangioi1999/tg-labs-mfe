@@ -1,0 +1,195 @@
+<section
+  class="border-b border-zinc-200 dark:border-zinc-800"
+  aria-labelledby="hero-title"
+>
+  <tg-container width="wide">
+    <div
+      class="grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_26rem]"
+    >
+      <div>
+        <p
+          class="font-mono text-xs font-medium tracking-widest text-accent-700 uppercase dark:text-accent-400"
+        >
+          // {{ site.name }} — engineering lab
+        </p>
+        <h1
+          id="hero-title"
+          class="mt-4 text-4xl font-semibold tracking-tight text-balance text-zinc-950 sm:text-6xl dark:text-white"
+        >
+          {{ site.tagline }}
+        </h1>
+        <p
+          class="mt-6 max-w-xl text-lg leading-8 text-zinc-600 dark:text-zinc-400"
+        >
+          Field notes on frontend architecture, backend systems and delivery —
+          plus the small tools and experiments that come out of building them.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a tgButton routerLink="/blog">Read the blog</a>
+          <a tgButton variant="secondary" routerLink="/tools"
+            >Open developer tools</a
+          >
+        </div>
+      </div>
+
+      <div
+        class="hidden overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950 font-mono text-sm shadow-sm lg:block dark:border-zinc-800"
+        aria-hidden="true"
+      >
+        <div
+          class="flex items-center gap-2 border-b border-zinc-800 px-4 py-2.5 text-xs text-zinc-500"
+        >
+          <span class="size-2.5 rounded-full bg-zinc-700"></span>
+          <span class="size-2.5 rounded-full bg-zinc-700"></span>
+          <span class="size-2.5 rounded-full bg-zinc-700"></span>
+          <span class="ml-2">tg-labs ~ federation.manifest.json</span>
+        </div>
+        <pre
+          class="p-5 leading-7 text-zinc-300"
+        ><span class="text-zinc-500">{{ '{' }}</span>
+  <span class="text-accent-300">"blog-mfe"</span>: <span class="text-zinc-400">"/mfe/blog/…"</span>,
+  <span class="text-accent-300">"docs-mfe"</span>: <span class="text-zinc-400">"/mfe/docs/…"</span>,
+  <span class="text-accent-300">"tools-mfe"</span>: <span class="text-zinc-400">"/mfe/tools/…"</span>,
+  <span class="text-accent-300">"playground-mfe"</span>: <span class="text-zinc-400">"/mfe/…"</span>
+<span class="text-zinc-500">{{ '}' }}</span>
+<span class="text-zinc-500">$</span> nx affected -t lint test build
+<span class="text-accent-400">✔</span> <span class="text-zinc-400">5 apps · 5 libs · one shell</span></pre>
+      </div>
+    </div>
+  </tg-container>
+</section>
+
+<section class="py-16" aria-labelledby="featured-title">
+  <tg-container width="wide">
+    <div class="flex items-end justify-between gap-4">
+      <div>
+        <p class="font-mono text-xs tracking-widest text-zinc-500 uppercase">
+          01 — Featured
+        </p>
+        <h2
+          id="featured-title"
+          class="mt-2 text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white"
+        >
+          Featured articles
+        </h2>
+      </div>
+      <a
+        routerLink="/blog"
+        class="text-sm font-medium text-accent-700 hover:text-accent-900 dark:text-accent-400 dark:hover:text-accent-300"
+        >All articles →</a
+      >
+    </div>
+
+    <ul class="mt-8 grid gap-6 md:grid-cols-3">
+      @for (article of featured; track article.slug) {
+      <li class="flex">
+        <tg-card [interactive]="true" class="w-full">
+          <div class="flex items-center gap-2">
+            <tg-badge tone="accent">{{ article.category }}</tg-badge>
+          </div>
+          <h3
+            class="mt-4 text-lg font-semibold leading-snug tracking-tight text-zinc-950 dark:text-white"
+          >
+            <a
+              [routerLink]="articleLink(article.slug)"
+              class="after:absolute after:inset-0 after:content-['']"
+              >{{ article.title }}</a
+            >
+          </h3>
+          <p
+            class="mt-2 flex-1 text-sm leading-6 text-zinc-600 dark:text-zinc-400"
+          >
+            {{ article.excerpt }}
+          </p>
+          <p class="mt-6 font-mono text-xs text-zinc-500">
+            <time [attr.datetime]="article.publishedAt"
+              >{{ formatDate(article.publishedAt) }}</time
+            >
+            · {{ article.readingMinutes }} min read
+          </p>
+        </tg-card>
+      </li>
+      }
+    </ul>
+  </tg-container>
+</section>
+
+<section
+  class="border-y border-zinc-200 bg-zinc-50 py-16 dark:border-zinc-800 dark:bg-zinc-900/40"
+  aria-labelledby="topics-title"
+>
+  <tg-container width="wide">
+    <p class="font-mono text-xs tracking-widest text-zinc-500 uppercase">
+      02 — Topics
+    </p>
+    <h2
+      id="topics-title"
+      class="mt-2 text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white"
+    >
+      Browse by topic
+    </h2>
+    <ul
+      class="mt-8 grid gap-px overflow-hidden rounded-lg border border-zinc-200 bg-zinc-200 sm:grid-cols-2 lg:grid-cols-3 dark:border-zinc-800 dark:bg-zinc-800"
+    >
+      @for (topic of topics; track topic.slug; let i = $index) {
+      <li class="bg-white dark:bg-zinc-950">
+        <a
+          [routerLink]="categoryLink(topic.slug)"
+          class="group block h-full p-6 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+        >
+          <span class="font-mono text-xs text-zinc-400"
+            >{{ (i + 1).toString().padStart(2, '0') }}</span
+          >
+          <span
+            class="mt-2 block font-semibold text-zinc-950 group-hover:text-accent-700 dark:text-white dark:group-hover:text-accent-400"
+            >{{ topic.name }}</span
+          >
+          <span
+            class="mt-1 block text-sm leading-6 text-zinc-600 dark:text-zinc-400"
+            >{{ topic.summary }}</span
+          >
+        </a>
+      </li>
+      }
+    </ul>
+  </tg-container>
+</section>
+
+<section class="py-16" aria-labelledby="resources-title">
+  <tg-container width="wide">
+    <p class="font-mono text-xs tracking-widest text-zinc-500 uppercase">
+      03 — Resources
+    </p>
+    <h2
+      id="resources-title"
+      class="mt-2 text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white"
+    >
+      Developer resources
+    </h2>
+    <p
+      class="mt-2 max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400"
+    >
+      Utilities run entirely in your browser — nothing you paste is sent to a
+      server.
+    </p>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      @for (resource of resources; track resource.path) {
+      <li class="flex">
+        <tg-card [interactive]="true" class="w-full">
+          <span class="font-mono text-xs text-zinc-500"
+            >{{ resource.kind }}</span
+          >
+          <a
+            [routerLink]="resource.path"
+            class="mt-2 font-semibold text-zinc-950 after:absolute after:inset-0 after:content-[''] dark:text-white"
+            >{{ resource.title }}</a
+          >
+          <p class="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            {{ resource.description }}
+          </p>
+        </tg-card>
+      </li>
+      }
+    </ul>
+  </tg-container>
+</section>

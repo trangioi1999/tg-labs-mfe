@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tools · TG Labs (tools-mfe)</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script>
+      try {
+        var stored = localStorage.getItem('tg-theme');
+        if (
+          stored === 'dark' ||
+          (!stored && matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <tg-root></tg-root>
+  </body>
+</html>

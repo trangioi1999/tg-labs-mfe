@@ -1,0 +1,33 @@
+/*
+ * Global base styles. Imported ONLY by application-level global stylesheets
+ * (never by a Remote's component stylesheet) so that base rules are applied
+ * once per page.
+ */
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-padding-top: 5rem;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply min-h-dvh bg-white font-sans text-zinc-800 antialiased dark:bg-zinc-950 dark:text-zinc-200;
+  }
+
+  ::selection {
+    @apply bg-accent-200 text-accent-950;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent-600;
+  }
+
+  code,
+  kbd,
+  pre {
+    @apply font-mono;
+  }
+}

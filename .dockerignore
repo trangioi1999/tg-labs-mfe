@@ -1,0 +1,18 @@
+# Keep the build context small and free of local state / secrets.
+**/node_modules
+dist
+tmp
+coverage
+.nx
+.angular
+.git
+.github
+.vscode
+.idea
+**/*.log
+.env
+.env.*
+!.env.example
+compose
+docs
+*.md

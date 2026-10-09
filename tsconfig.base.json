@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "esnext",
+    "lib": ["es2022", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "paths": {
+      "@tg-labs/shared-models": ["./libs/shared-models/src/index.ts"],
+      "@tg-labs/shared-utils": ["./libs/shared-utils/src/index.ts"],
+      "@tg-labs/shared-config": ["./libs/shared-config/src/index.ts"],
+      "@tg-labs/shared-ui": ["./libs/shared-ui/src/index.ts"],
+      "@tg-labs/shared-layout": ["./libs/shared-layout/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

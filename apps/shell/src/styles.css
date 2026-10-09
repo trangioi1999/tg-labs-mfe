@@ -1,0 +1,15 @@
+/*
+ * Shell global stylesheet (Tailwind CSS v4).
+ *
+ * `source(none)` disables automatic content detection so the Shell only
+ * generates utilities for its OWN templates and the shared UI libraries.
+ * Remotes ship their own utilities (see each remote's layout stylesheet), so
+ * a remote can be redeployed without rebuilding the Shell.
+ */
+@import 'tailwindcss' source(none);
+@import '../../../libs/shared-ui/src/styles/tokens.css';
+@import '../../../libs/shared-ui/src/styles/base.css';
+
+@source './';
+@source '../../../libs/shared-ui/src';
+@source '../../../libs/shared-layout/src';

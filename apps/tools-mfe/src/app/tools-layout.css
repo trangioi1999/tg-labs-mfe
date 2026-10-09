@@ -1,0 +1,26 @@
+/*
+ * Tools remote stylesheet (attached unencapsulated to ToolsLayout).
+ *
+ * When this remote runs inside the Shell its global styles.css is NOT loaded,
+ * so this file ships the Tailwind utilities used by the remote's templates.
+ *
+ * Utilities are scoped to the remote's root element (tg-tools-layout). Two
+ * independently built Tailwind stylesheets on one page would otherwise
+ * override each other by source order (e.g. this file's `.grid` beating the
+ * Shell's `md:hidden`). Scoping keeps the Shell's chrome untouched and gives
+ * the remote's own rules precedence inside its subtree. Preflight/base
+ * styles are intentionally omitted; they belong to the host page.
+ */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import '../../../../libs/shared-ui/src/styles/tokens.css';
+
+@layer utilities {
+  tg-tools-layout {
+    @tailwind utilities source(none);
+  }
+}
+
+@source '../';
+@source '../../../../libs/shared-ui/src';
+@source '../../../../libs/shared-layout/src';

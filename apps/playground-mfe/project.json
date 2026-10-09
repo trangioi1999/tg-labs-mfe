@@ -1,0 +1,118 @@
+{
+  "name": "playground-mfe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "tg",
+  "sourceRoot": "apps/playground-mfe/src",
+  "tags": ["type:app", "scope:playground"],
+  "targets": {
+    "build": {
+      "executor": "@angular-architects/native-federation:build",
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "outputs": ["{workspaceRoot}/dist/apps/playground-mfe"],
+      "options": {
+        "cacheExternalArtifacts": true,
+        "tsConfig": "apps/playground-mfe/tsconfig.federation.json"
+      },
+      "configurations": {
+        "production": {
+          "target": "playground-mfe:esbuild:production"
+        },
+        "development": {
+          "target": "playground-mfe:esbuild:development",
+          "dev": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-architects/native-federation:build",
+      "options": {
+        "target": "playground-mfe:serve-original:development",
+        "tsConfig": "apps/playground-mfe/tsconfig.federation.json",
+        "rebuildDelay": 500,
+        "cacheExternalArtifacts": true,
+        "dev": true,
+        "devServer": true,
+        "port": 0
+      },
+      "continuous": true
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "watch": false,
+        "buildTarget": "playground-mfe:esbuild:development"
+      }
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "playground-mfe:build",
+        "port": 4204,
+        "staticFilePath": "dist/apps/playground-mfe/browser",
+        "spa": true
+      }
+    },
+    "esbuild": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/playground-mfe",
+        "browser": "apps/playground-mfe/src/main.ts",
+        "tsConfig": "apps/playground-mfe/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/playground-mfe/public"
+          }
+        ],
+        "styles": ["apps/playground-mfe/src/styles.css"],
+        "polyfills": ["es-module-shims"]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "48kb",
+              "maximumError": "96kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "outputPath": "dist/dev/apps/playground-mfe"
+        }
+      }
+    },
+    "serve-original": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4204
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "playground-mfe:esbuild:production"
+        },
+        "development": {
+          "buildTarget": "playground-mfe:esbuild:development"
+        }
+      }
+    }
+  }
+}
