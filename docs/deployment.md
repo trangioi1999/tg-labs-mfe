@@ -34,6 +34,7 @@ docker build --secret id=extra_ca,src=./corp-ca.pem -f docker/shell.Dockerfile -
 
 | Variable                      | Service | Default                            |
 | ----------------------------- | ------- | ---------------------------------- |
+| `ENABLED_REMOTES`             | shell   | `all` (or e.g. `blog,tools`)       |
 | `REMOTE_BLOG_URL`             | shell   | `/mfe/blog/remoteEntry.json`       |
 | `REMOTE_DOCS_URL`             | shell   | `/mfe/docs/remoteEntry.json`       |
 | `REMOTE_TOOLS_URL`            | shell   | `/mfe/tools/remoteEntry.json`      |
@@ -147,6 +148,8 @@ To create it, go to **Workers & Pages → Create → Import a repository**, pick
 | Environment variable | `NODE_VERSION` = `24.21.0`                     |
 
 The `_headers` file in `dist/pages` sets the cache headers. Every push to `main` redeploys.
+
+To publish only some sections, add the build variable `ENABLED_REMOTES` (e.g. `blog,tools`) in the Cloudflare project settings and redeploy. The other sections disappear from the site.
 
 Validate locally without deploying:
 

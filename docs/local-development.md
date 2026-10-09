@@ -48,6 +48,12 @@ The Native Federation dev server rebuilds on change. Reload the Shell to pick up
 
 When the Shell runs alone, every remote section shows its "temporarily unavailable" page. This is expected: start the remotes you need.
 
+## Hiding sections locally
+
+The Shell only shows the remotes listed in `apps/shell/public/federation.manifest.json`. To hide a section while developing, remove its entry; restore it before committing. See [architecture.md](architecture.md#enabling-and-disabling-sections).
+
+When the Shell runs alone, the listed remotes are fetched only when their section is opened. Sections whose dev server is not running show the "temporarily unavailable" page.
+
 ## Quality checks
 
 ```bash
