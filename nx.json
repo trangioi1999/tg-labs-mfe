@@ -76,5 +76,6 @@
         "testMode": "run"
       }
     }
-  ]
+  ],
+  "neverConnectToCloud": true
 }

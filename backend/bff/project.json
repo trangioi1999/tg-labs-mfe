@@ -1,0 +1,40 @@
+{
+  "name": "bff",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "backend/bff/src",
+  "tags": [
+    "type:app",
+    "scope:bff"
+  ],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "production",
+        "^production"
+      ],
+      "outputs": [
+        "{workspaceRoot}/dist/backend/bff"
+      ],
+      "options": {
+        "commands": [
+          "tsc -p backend/bff/tsconfig.app.json",
+          "node -e \"require('node:fs').writeFileSync('dist/backend/bff/package.json', JSON.stringify({ type: 'module' }) + '\\\\n')\""
+        ],
+        "parallel": false
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "continuous": true,
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "command": "node dist/backend/bff/backend/bff/src/main.js"
+      }
+    }
+  }
+}

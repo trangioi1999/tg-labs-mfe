@@ -25,6 +25,11 @@ export default withNativeFederation({
     'rxjs/fetch',
     'rxjs/testing',
     'rxjs/webSocket',
+    // Server-side (BFF) dependencies that live in the same package.json.
+    '@nestjs/common',
+    '@nestjs/core',
+    '@nestjs/platform-express',
+    'reflect-metadata',
     // Add further packages you don't need at runtime
   ],
 
