@@ -93,7 +93,8 @@
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "outputPath": "dist/dev/apps/playground-mfe"
         }
       }
     },
