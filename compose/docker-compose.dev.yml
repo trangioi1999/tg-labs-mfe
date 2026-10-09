@@ -1,0 +1,16 @@
+# Local debugging override: also publishes every service directly so a single
+# container can be inspected without going through the gateway.
+#   docker compose --env-file .env -f compose/docker-compose.yml -f compose/docker-compose.dev.yml up --build
+services:
+  shell:
+    ports: ['8081:8080']
+  blog-mfe:
+    ports: ['8082:8080']
+  docs-mfe:
+    ports: ['8083:8080']
+  tools-mfe:
+    ports: ['8084:8080']
+  playground-mfe:
+    ports: ['8085:8080']
+  bff:
+    ports: ['3000:3000']
