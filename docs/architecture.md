@@ -20,7 +20,7 @@
 ### Shell responsibilities
 
 - Global header, navigation, theme toggle (light/dark), footer.
-- Home page, About page, global 404.
+- Home page, About page, Settings (`/settings`), global 404.
 - Top-level route registration and remote loading.
 - Loading indicator while a remote is fetched, and a fallback page when it fails.
 
@@ -91,6 +91,8 @@ The manifest is also the list of enabled sections. A remote that is missing from
 
 Valid values are `blog`, `docs`, `tools`, `playground` (comma-separated) or `all` (the default).
 
+`ENABLED_REMOTES` decides what is **deployed**. Visitors can additionally **hide** deployed sections for themselves in Settings (see below). Hidden sections leave the navigation and the home page, but their URLs keep working.
+
 ### Route contract
 
 The contract lives in `@tg-labs/shared-config` (`REMOTES`, `REMOTE_ROUTES_MODULE`). For each remote:
@@ -118,6 +120,26 @@ A remote's global `styles.css` is **not** loaded when the remote runs inside the
 Those utilities are **scoped to the remote's root element** (e.g. `tg-blog-layout .grid`). Without scoping, a second Tailwind stylesheet would override the Shell's responsive utilities by source order. Example: the remote's `.grid` beating the Shell's `md:hidden` broke the header on desktop.
 
 The Shell's own `styles.css` uses `source(none)` and scans only `apps/shell` and the shared UI libraries. Its build is therefore independent of the remotes' code.
+
+## Settings and visitor preferences
+
+`/settings` is a Shell page with three tabs:
+
+| Tab        | Path                   | What it does                                                                           |
+| ---------- | ---------------------- | -------------------------------------------------------------------------------------- |
+| Dashboard  | `/settings`            | Deployed/online/shown counts; live status of every remote (fetches `remoteEntry.json`) |
+| Appearance | `/settings/appearance` | Theme (light, dark, system), accent colour (9 palettes), text size (S/M/L)             |
+| Sections   | `/settings/sections`   | Show or hide each deployed section and each home page block                            |
+
+`PreferencesService` (`apps/shell/src/app/core/preferences`) stores the choices in `localStorage` under `tg-preferences` (this browser only) and applies them to `<html>`:
+
+| Preference | Applied as                     | Styled by                                         |
+| ---------- | ------------------------------ | ------------------------------------------------- |
+| Theme      | `.dark` class                  | Tailwind `dark:` variant (tokens.css)             |
+| Accent     | `data-accent="violet"` (etc.)  | `apps/shell/src/preferences.css`                  |
+| Text size  | `data-font-scale="sm" \| "lg"` | `apps/shell/src/preferences.css` (root font size) |
+
+`preferences.css` overrides the `--color-accent-*` variables. Every `*-accent-*` utility reads those variables, so **Remotes follow the accent colour without any change or rebuild**. An inline script in `index.html` applies the same attributes before first paint, so there is no flash of the default theme. The older `tg-theme` key is migrated automatically.
 
 ## Shared libraries and boundaries
 
